@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+
+body{
+    font-size: 1.5rem;
+    font-family: Helvetica, Arial, sans-serif;
+}
+p{
+    margin: 0;
+    width: 100%;
+}
+.contenedor{
+    width: min(95%, 120rem);
+    margin: 1rem auto; 
+}
+
+img{
+    max-width: 100%;
+}
+.caja{
+    display: grid;
+
+}
+.caja label{
+    padding: 10px 0;
+
+}
+.caja input{
+    outline: unset;
+    
+}
+.botones button{
+    padding: 10px 30px;
+    margin: 10px 0;
+}
+
+   
+@media (min-width: 767px) {
+    body{
+        font-size: 1.3rem;
+    }
+    .contenedor{
+        display: grid;
+        grid-template-columns: repeat(5,1fr);
+    }
+    .contenedor__informacion{
+        grid-column: 1 / 5;
+    }
+    .grid-dos{
+        border: 1px solid #c8c8c8a9;
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+        padding: 10px;
+    }
+    .titulo-informacion{
+        grid-column:  1 / 4;
+        font-size: 1rem;
+    }
+    .titulo-informacion,
+    .titulo-opciones{
+        font-size: 1rem;
+    }
+    .foto{
+        border:1px solid #c8c8c8a9;
+    }
+    .foto img{
+        display: flex;
+        justify-content: center;
+    }
+    .cajas{
+        grid-column: 2 / 4;
+        padding-left: 10px;
+    }
+    .caja{
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+    }
+    .contenedor__horaFecha{
+        grid-column: 5 / 6;
+    }
+}
+
+@media (min-width: 991px){
+   
+}
+
+</style>
+<body>
+    <div class="contenedor">
+        <div class="contenedor__informacion">   
+            <div class="grid-dos">
+                <div class="titulo-informacion">Información del usuario</div>
+                <div class="foto">
+                    <img src="img/foto.png" alt="">
+                </div>
+                <div class="cajas">
+                    <div class="caja">
+                        <label for="codigo">Código</label>
+                        <input type="text" id="codigo">
+                    </div>
+                    
+                    <div class="caja">
+                        <label for="nombre">Nombres</label>
+                        <input type="text" id="nombre">
+                    </div>
+                    
+                    <div class="caja">
+                        <label for="apellido">Apellidos</label>
+                        <input type="text" id="apellido">
+                    </div>
+                        
+                    <div class="caja">
+                        <label for="dni">DNI</label>
+                        <input type="text" id="dni">
+                    </div>
+                                    
+                    <div class="caja">
+                        <label for="cargo">Cargo</label>
+                        <input type="text" id="cargo">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="contenedor__opciones">
+            <div class="titulo-opciones">Opciones</div>
+            <div class="caja--mod">
+                <label for="nro_dni">N° DNI</label>
+                <input type="text" id="nro_dni">
+            </div>
+            <div class="botones">
+                <button>Asistencia</button>
+                <button>Refrigerio</button>
+            </div>
+        </div>
+
+        <div class="contenedor__registro">
+            <div class="grid-cuatro">
+                <div class="form-registro__fecha">
+                    <span>Fecha: </span><code>13-08-2020</code>
+                </div>
+                <div class="form-registro__horario">
+                    <span>Horario: </span><code>18:00:00</code>
+                </div>
+                <div class="btnRegistro" id="btnIngresoLabores">Ingreso labores</div>
+                <div class="btnRegistro" id="btnIngresoRefrigerio">Ingreso refrigerio</div>
+                <div class="btnRegistro" id="btnSalidaRefrigerio">Salida refrigerio</div>
+                <div class="btnRegistro" id="btnSalidaLabores">Salida labores</div>
+            </div>
+        </div>
+    
+        <div class="contenedor__horaFecha">
+            <div id="horaActual">11.40 a.m</div>
+            <div id="fechaActual">lunes, 10 de junio de 2024</div>
+        </div>
+    </div>
+</body>
+</html>
