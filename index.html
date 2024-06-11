@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Marcación GPEM S.A.C</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <style>
 
 body{
     font-size: 16px;
-    font-family: Helvetica, Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 p{
     margin: 0;
@@ -17,18 +18,16 @@ p{
 }
 h2{
     font-size: 19px;
-    /* background-color: #198754; */
-    color: #198754;
-    border-radius: 4px;
+    font-weight: 800;
+    color: #5BA14B;
+    padding: 10px;
+    background-color: #ecf0f1;
 }
 img{
     width: 100%;
 }
 input{
     padding: 8px 2px;
-}
-.caja input{
-    outline: unset;   
 }
 .contenedor{
     width: min(98%, 120rem);
@@ -85,21 +84,25 @@ input{
     font-size: 1em;
 }
 .botones__asistencia{
-    background-color: #0000FF;
+    /* background-color: #0000FF; */
+    background-color: #2980b9;
+    box-shadow: 0 4px #1c6ea4;
     transition: transform 0.3s ease-in-out;
 }
 .botones__asistencia:hover{
-    background-color: #0303f5;   
+    background-color: #2674a9;   
 }
 .botones__asistencia:active{
     transform: scale(0.9);   
 }
 .botones__refrigerio{
-    background-color: #FFA500;
+    /* background-color: #FFA500; */
+    background-color: #e67e22;
+    box-shadow: 0 4px #d35400;
     transition: transform 0.3s ease-in-out;
 }
 .botones__refrigerio:hover{
-    background-color: #f29e02;
+    background-color: #d2731f;
 }
 .botones__refrigerio:active{
     transform: scale(0.9);   
@@ -125,15 +128,17 @@ input{
 }
 .caja label{
     display: block;
+    font-weight: bold;
     width: 100%;
     margin-bottom: 5px;
 }
 .caja input{
     display: block;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 400;
     margin-bottom: 10px;
     padding: 10px;
+    outline: unset;   
 }
 
 /*  ================================================
@@ -167,15 +172,12 @@ input{
     font-weight: 700;
     padding: 10px;
 }
-
 .registro-botones{
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
     margin-top: 20px;
 }
-
-
 .btnRegistro{
     border: 1px solid #8a8a8a;
     font-size: 0.9em;
@@ -237,6 +239,7 @@ input{
     }
     .foto img{
         object-fit: cover;
+        border-radius: 4px;
     }
     .contenedor__opciones{
         grid-row: initial;
@@ -261,25 +264,12 @@ input{
     .titulo-registros{
         grid-column: 1 / 5;
     }
-    /* .caja-opciones label{
-        display: block;
-        margin-bottom: 5px;
-        color: tomato;
-        font-weight: 700;
-    } */
-    /* .caja-opciones input{
-        margin-bottom: 20px;
-    } */
     .botones{
         display: flex;
         flex-direction: column;
     }
     .botones button{
         padding: 18px 5px;
-        /* margin-bottom: 10px;
-        text-transform: uppercase;
-        border: none;
-        border-radius: 4px; */
     }
     .cajas{
         grid-column: 2 / 4;
@@ -293,7 +283,6 @@ input{
     .contenedor__registro{
         border: 1px solid #c8c8c8a9;
         grid-column: 1 / 5;
-        /* padding: 10px; */
         border-radius: 4px;
     }
     .grid-cuatro{
@@ -326,13 +315,6 @@ input{
         font-size: 1.3em;
         font-weight: 800;
     }
-    /* .btnRegistro{
-        border: 1px solid #8a8a8a;
-        font-size: 0.9em;
-        text-align: center;
-        text-transform: uppercase;
-        padding: 10px 0;
-    } */
 }
 
 @media (min-width: 800px){
