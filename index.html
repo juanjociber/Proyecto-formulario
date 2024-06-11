@@ -17,6 +17,9 @@ p{
 }
 h2{
     font-size: 19px;
+    /* background-color: #198754; */
+    color: #198754;
+    border-radius: 4px;
 }
 img{
     width: 100%;
@@ -38,9 +41,10 @@ input{
     =============================
 */
 .contenedor__opciones{
+    border: 1px solid #5BA14B;   
     grid-row: 1 / 1;
     padding: 10px;
-    border: 1px solid #c8c8c8a9;
+    /* border: 1px solid #c8c8c8a9; */
     border-radius: 4px;
 }
 .caja-opciones{
@@ -76,8 +80,9 @@ input{
 .botones__refrigerio{
     box-shadow: inset -8px -5px 10px -5px rgb(105, 105, 105);
     color: #FFFFFF;
-    font-weight: 300;
+    font-weight: 500;
     letter-spacing: 1px;
+    font-size: 1em;
 }
 .botones__asistencia{
     background-color: #0000FF;
@@ -105,7 +110,8 @@ input{
     ================================================
 */
 .contenedor__informacion{
-    border: 1px solid #c8c8c8a9;
+    border: 1px solid #5BA14B;
+    /* border: 1px solid #c8c8c8a9; */
     border-radius: 4px;
     padding: 10px;
 }
@@ -135,20 +141,21 @@ input{
     ================================================
 */
 .contenedor__registro{
-    border: 1px solid green;
+    border: 1px solid #5BA14B;
+    /* border: 1px solid #c8c8c8a9; */
     padding: 10px;
+    border-radius: 4px;
 }
 .titulo-registros{
     grid-column: 1 / 2;
 }
-
-.contenedor__registro--fecha{
-    display: grid;
-    grid-template-columns: 1fr 4fr;
-}
+.contenedor__registro--fecha,
 .contenedor__registro--horario{
     display: grid;
     grid-template-columns: 1fr 4fr;
+}
+.contenedor__registro--fecha{
+    margin-bottom: 10px;
 }
 .contenedor__registro--fecha label,
 .contenedor__registro--horario label{
@@ -185,10 +192,18 @@ input{
     background-color: #FFA500;
     color: #FFFFFF;
 }
-
-
 .contenedor__horaFecha{
-    border: 1px solid tomato;
+    border: 1px solid #5BA14B    ;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+.contenedor__horaFecha time{
+    padding: 10px;
+}
+.contenedor__horaFecha time:first-child{
+    font-size: 17px;
+    font-weight: 800;
 }
 
 /* =======================
