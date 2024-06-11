@@ -8,46 +8,177 @@
 <style>
 
 body{
-    font-size: 1.5rem;
+    font-size: 16px;
     font-family: Helvetica, Arial, sans-serif;
 }
 p{
     margin: 0;
     width: 100%;
 }
-.contenedor{
-    width: min(95%, 120rem);
-    margin: 1rem auto; 
-}
-
 img{
-    max-width: 100%;
+    width: 100%;
 }
-.caja{
-    display: grid;
-
-}
-.caja label{
-    padding: 10px 0;
-
+input{
+    padding: 8px 2px;
 }
 .caja input{
-    outline: unset;
-    
+    outline: unset;   
 }
-.botones button{
-    padding: 10px 30px;
-    margin: 10px 0;
+.contenedor{
+    width: min(98%, 120rem);
+    margin: 1rem auto;
+    display: grid;
+    row-gap: 10px; 
+}
+/*  =============================
+    Estilos para caja de opciones 
+    =============================
+*/
+.contenedor__opciones{
+    grid-row: 1 / 1;
+    padding: 10px;
+    border: 1px solid #c8c8c8a9;
+    border-radius: 4px;
+}
+.titulo-informacion,
+.titulo-opciones,
+.titulo-registros{
+    margin-bottom: 10px;
 }
 
-   
-@media (min-width: 767px) {
+.caja-opciones{
+    display: flex;
+    flex-direction: column;
+}
+.caja-opciones label{
+    margin-bottom: 5px;
+    color: tomato;
+    font-weight: 700;
+}
+.caja-opciones input{
+    margin-bottom: 20px;
+    border: 1px solid #a4a4a4;
+    border-radius: 4px;
+    padding: 8px 10px;
+    font-size: 16px;
+    outline: unset;
+}
+.botones{
+    display: flex;
+    justify-content: space-around;
+}
+.botones button{
+    padding: 18px 25px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.botones__asistencia,
+.botones__refrigerio{
+    box-shadow: inset -8px -5px 10px -5px rgb(105, 105, 105);
+    color: #FFFFFF;
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+.botones__asistencia{
+    background-color: #0000FF;
+    transition: transform 0.3s ease-in-out;
+}
+.botones__asistencia:hover{
+    background-color: #0303f5;   
+}
+.botones__asistencia:active{
+    transform: scale(0.9);   
+}
+.botones__refrigerio{
+    background-color: #FFA500;
+    transition: transform 0.3s ease-in-out;
+}
+.botones__refrigerio:hover{
+    background-color: #f29e02;
+}
+.botones__refrigerio:active{
+    transform: scale(0.9);   
+}
+
+/*  ================================================
+    Estilos para caja de información de colaborador 
+    ================================================
+*/
+.contenedor__informacion{
+    border: 1px solid #c8c8c8a9;
+    border-radius: 4px;
+    padding: 10px;
+}
+.foto{
+    display: none;
+}
+.caja{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5px;
+}
+.caja label{
+    display: block;
+    width: 100%;
+    margin-bottom: 5px;
+}
+.caja input{
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+/*  ================================================
+    Estilos para caja de registro 
+    ================================================
+*/
+.contenedor__registro{
+    /* border: 1px solid green; */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 5px;
+    row-gap: 10px;
+}
+.titulo-registros{
+    grid-column:  1 / 3;
+}
+.btnRegistro{
+    border: 1px solid #8a8a8a;
+    font-size: 0.9em;
+    text-align: center;
+    text-transform: uppercase;
+    padding: 10px 0;
+}
+.btnRegistro--lab{
+    background-color: #0000FF;
+    color: #FFFFFF;
+}
+.btnRegistro--ref{
+    background-color: #FFA500;
+    color: #FFFFFF;
+}
+
+
+.contenedor__horaFecha{
+    border: 1px solid tomato;
+}
+
+/* =======================
+    Responsive Desing 
+    ======================*/
+@media (min-width: 768px) {
     body{
-        font-size: 1.3rem;
+        font-size: 1em;
     }
     .contenedor{
         display: grid;
         grid-template-columns: repeat(5,1fr);
+        column-gap: 8px;
+        row-gap: 8px;
     }
     .contenedor__informacion{
         grid-column: 1 / 5;
@@ -57,21 +188,59 @@ img{
         display: grid;
         grid-template-columns: repeat(3,1fr);
         padding: 10px;
-    }
-    .titulo-informacion{
-        grid-column:  1 / 4;
-        font-size: 1rem;
-    }
-    .titulo-informacion,
-    .titulo-opciones{
-        font-size: 1rem;
+        border-radius: 4px;
     }
     .foto{
         border:1px solid #c8c8c8a9;
-    }
-    .foto img{
         display: flex;
         justify-content: center;
+        align-items: center;
+    }
+    .foto img{
+        object-fit: cover;
+    }
+    .contenedor__opciones{
+        grid-row: initial;
+        border: 1px solid #c8c8c8a9;
+        border-radius: 4px;
+        display: flex;
+        flex-direction: column;
+    }
+    .titulo-informacion{
+        grid-column:  1 / 4;
+    }
+    .titulo-informacion,
+    .titulo-opciones,
+    .titulo-registros{
+        font-size: 0.8em;
+        font-weight: 600;
+    }
+    .titulo-informacion,
+    .titulo-opciones{
+        margin-bottom: 15px;
+    }
+    .titulo-registros{
+        grid-column: 1 / 5;
+    }
+    /* .caja-opciones label{
+        display: block;
+        margin-bottom: 5px;
+        color: tomato;
+        font-weight: 700;
+    } */
+    /* .caja-opciones input{
+        margin-bottom: 20px;
+    } */
+    .botones{
+        display: flex;
+        flex-direction: column;
+    }
+    .botones button{
+        padding: 18px 5px;
+        /* margin-bottom: 10px;
+        text-transform: uppercase;
+        border: none;
+        border-radius: 4px; */
     }
     .cajas{
         grid-column: 2 / 4;
@@ -79,80 +248,392 @@ img{
     }
     .caja{
         display: grid;
-        grid-template-columns: 1fr 2fr;
+        grid-template-columns: 1fr 3.5fr;
+        margin-bottom: 5px;
     }
+    .contenedor__registro{
+        border: 1px solid #c8c8c8a9;
+        grid-column: 1 / 5;
+        /* padding: 10px; */
+        border-radius: 4px;
+    }
+    .grid-cuatro{
+        border: 1px solid #c8c8c8a9;
+        display: grid;
+        column-gap: 5px;
+        border-radius: 4px;
+    }
+    .contenedor__registro--fecha{
+        grid-column:  1 / 3;
+        margin: 20px 0;
+    }
+    .contenedor__registro--horario{
+        grid-column:  3 / 5;
+        margin: 20px 0;
+    }
+    
     .contenedor__horaFecha{
+        border: 1px solid #c8c8c8a9;
         grid-column: 5 / 6;
+        padding: 10px;
+        place-content: center;
+        text-align: center;
+        border-radius: 4px;
+    }
+    .contenedor__horaFecha div{
+        margin: 20px 0;
+    }
+    .contenedor__horaFecha div:first-child{
+        font-size: 1.3em;
+        font-weight: 800;
+    }
+    /* .btnRegistro{
+        border: 1px solid #8a8a8a;
+        font-size: 0.9em;
+        text-align: center;
+        text-transform: uppercase;
+        padding: 10px 0;
+    } */
+}
+
+@media (min-width: 800px){
+    .contenedor{
+        width: min(90%, 120rem);
     }
 }
 
-@media (min-width: 991px){
-   
+@media (min-width: 877px){
+    .contenedor{
+        width: min(89%, 120rem);
+    }
 }
 
+@media (min-width: 887px){
+    .contenedor{
+        width: min(88%, 120rem);
+    }
+}
+
+@media (min-width: 897px){
+    .contenedor{
+        width: min(87%, 120rem);
+    }
+}
+
+@media (min-width:907px){
+    .contenedor{
+        width: min(86%, 120rem);
+    }
+}
+
+@media (min-width:917px){
+    .contenedor{
+        width: min(85%, 120rem);
+    }
+}
+
+@media (min-width:928px){
+    .contenedor{
+        width: min(84%, 120rem);
+    }
+}
+@media (min-width:939px){
+    .contenedor{
+        width: min(83%, 120rem);
+    }
+}
+
+@media (min-width:950px){
+    .contenedor{
+        width: min(82%, 120rem);
+    }
+}
+
+@media (min-width:961px){
+    .contenedor{
+        width: min(81%, 120rem);
+    }
+}
+
+@media (min-width:973px){
+    .contenedor{
+        width: min(80%, 120rem);
+    }
+}
+
+@media (min-width:985px){
+    .contenedor{
+        width: min(79%, 120rem);
+    }
+}
+
+@media (min-width: 992px){
+    .contenedor{
+        width: min(75%, 120rem);
+    }
+}
+
+@media (min-width: 1024px){
+    .contenedor{
+        width: min(70%, 120rem);
+    }
+}
+
+@media (min-width: 1024px){
+    .contenedor{
+        width: min(60%, 120rem);
+    }
+}
+@media (min-width: 1824px){
+    .contenedor{
+        width: min(42%, 120rem);
+    }
+}
+@media (min-width: 1308px){
+    .contenedor{
+        width: min(59%, 120rem);
+    }
+}
+@media (min-width: 1330px){
+    .contenedor{
+        width: min(58%, 120rem);
+    }
+}
+@media (min-width: 1353px){
+    .contenedor{
+        width: min(57%, 120rem);
+    }
+}
+@media (min-width: 1376px){
+    .contenedor{
+        width: min(56%, 120rem);
+    }
+}
+@media (min-width: 1401px){
+    .contenedor{
+        width: min(55%, 120rem);
+    }
+}
+@media (min-width: 1425px){
+    .contenedor{
+        width: min(54%, 120rem);
+    }
+}
+@media (min-width: 1452px){
+    .contenedor{
+        width: min(53%, 120rem);
+    }
+}
+@media (min-width: 1452px){
+    .contenedor{
+        width: min(52%, 120rem);
+    }
+}
+@media (min-width: 1507px){
+    .contenedor{
+        width: min(51%, 120rem);
+    }
+}
+@media (min-width: 1536px){
+    .contenedor{
+        width: min(50%, 120rem);
+    }
+}
+@media (min-width: 1566px){
+    .contenedor{
+        width: min(49%, 120rem);
+    }
+}
+@media (min-width: 1598px){
+    .contenedor{
+        width: min(48%, 120rem);
+    }
+}
+@media (min-width: 1631px){
+    .contenedor{
+        width: min(47%, 120rem);
+    }
+}
+@media (min-width: 1665px){
+    .contenedor{
+        width: min(46%, 120rem);
+    }
+}
+@media (min-width: 1701px){
+    .contenedor{
+        width: min(45%, 120rem);
+    }
+}
+@media (min-width: 1739px){
+    .contenedor{
+        width: min(44%, 120rem);
+    }
+}
+@media (min-width: 1778px){
+    .contenedor{
+        width: min(43%, 120rem);
+    }
+}
+@media (min-width: 1819px){
+    .contenedor{
+        width: min(42%, 120rem);
+    }
+}
+@media (min-width: 1861px){
+    .contenedor{
+        width: min(41%, 120rem);
+    }
+}
+@media (min-width: 1907px){
+    .contenedor{
+        width: min(40%, 120rem);
+    }
+}
+@media (min-width: 1954px){
+    .contenedor{
+        width: min(39%, 120rem);
+    }
+}
+@media (min-width: 2004px){
+    .contenedor{
+        width: min(38%, 120rem);
+    }
+}
+@media (min-width: 2056px){
+    .contenedor{
+        width: min(37%, 120rem);
+    }
+}
+@media (min-width: 2110px){
+    .contenedor{
+        width: min(36%, 120rem);
+    }
+}
+@media (min-width: 2169px){
+    .contenedor{
+        width: min(35%, 120rem);
+    }
+}
+@media (min-width: 2231px){
+    .contenedor{
+        width: min(34%, 120rem);
+    }
+}
+@media (min-width: 2296px){
+    .contenedor{
+        width: min(33%, 120rem);
+    }
+}
+@media (min-width: 2365px){
+    .contenedor{
+        width: min(32%, 120rem);
+    }
+}
+@media (min-width: 2438px){
+    .contenedor{
+        width: min(31%, 120rem);
+    }
+}
+@media (min-width: 2517px){
+    .contenedor{
+        width: min(30%, 120rem);
+    }
+}
+@media (min-width: 2600px){
+    .contenedor{
+        width: min(29%, 120rem);
+    }
+}
+@media (min-width: 2689px){
+    .contenedor{
+        width: min(28%, 120rem);
+    }
+}
+@media (min-width: 2785px){
+    .contenedor{
+        width: min(27%, 120rem);
+    }
+}
+@media (min-width: 2887px){
+    .contenedor{
+        width: min(26%, 120rem);
+    }
+}
+@media (min-width: 2997px){
+    .contenedor{
+        width: min(25%, 120rem);
+    }
+}
+@media (min-width: 3117px){
+    .contenedor{
+        width: min(24%, 120rem);
+    }
+}
+@media (min-width: 3246px){
+    .contenedor{
+        width: min(23%, 120rem);
+    }
+}
 </style>
 <body>
     <div class="contenedor">
-        <div class="contenedor__informacion">   
-            <div class="grid-dos">
-                <div class="titulo-informacion">Información del usuario</div>
-                <div class="foto">
-                    <img src="img/foto.png" alt="">
+        <div class="contenedor__informacion grid-dos">   
+            <div class="titulo-informacion">Información del usuario</div>
+            <div class="foto">
+                <img src="img/foto.png" alt="">
+            </div>
+            <div class="cajas">
+                <div class="caja">
+                    <label for="codigo">Código</label>
+                    <input type="text" id="codigo" value="13" disabled>
                 </div>
-                <div class="cajas">
-                    <div class="caja">
-                        <label for="codigo">Código</label>
-                        <input type="text" id="codigo">
-                    </div>
+                
+                <div class="caja">
+                    <label for="nombre">Nombres</label>
+                    <input type="text" id="nombre" value="Fernando Edilberto" disabled>
+                </div>
+                
+                <div class="caja">
+                    <label for="apellido">Apellidos</label>
+                    <input type="text" id="apellido" value="Hernández Gonzales" disabled>
+                </div>
                     
-                    <div class="caja">
-                        <label for="nombre">Nombres</label>
-                        <input type="text" id="nombre">
-                    </div>
-                    
-                    <div class="caja">
-                        <label for="apellido">Apellidos</label>
-                        <input type="text" id="apellido">
-                    </div>
-                        
-                    <div class="caja">
-                        <label for="dni">DNI</label>
-                        <input type="text" id="dni">
-                    </div>
-                                    
-                    <div class="caja">
-                        <label for="cargo">Cargo</label>
-                        <input type="text" id="cargo">
-                    </div>
+                <div class="caja">
+                    <label for="dni">DNI</label>
+                    <input type="text" id="dni" value="50505050" disabled>
+                </div>
+                                
+                <div class="caja">
+                    <label for="cargo">Cargo</label>
+                    <input type="text" id="cargo" value="Consultor Senior de Proyectos" disabled>
                 </div>
             </div>
         </div>
         
         <div class="contenedor__opciones">
             <div class="titulo-opciones">Opciones</div>
-            <div class="caja--mod">
-                <label for="nro_dni">N° DNI</label>
-                <input type="text" id="nro_dni">
+            <div class="caja-opciones">
+                <label for="nroDni">N° DNI</label>
+                <input type="text" id="nroDni">
             </div>
             <div class="botones">
-                <button>Asistencia</button>
-                <button>Refrigerio</button>
+                <button class="botones__asistencia">Asistencia</button>
+                <button class="botones__refrigerio">Refrigerio</button>
             </div>
         </div>
 
-        <div class="contenedor__registro">
-            <div class="grid-cuatro">
-                <div class="form-registro__fecha">
-                    <span>Fecha: </span><code>13-08-2020</code>
-                </div>
-                <div class="form-registro__horario">
-                    <span>Horario: </span><code>18:00:00</code>
-                </div>
-                <div class="btnRegistro" id="btnIngresoLabores">Ingreso labores</div>
-                <div class="btnRegistro" id="btnIngresoRefrigerio">Ingreso refrigerio</div>
-                <div class="btnRegistro" id="btnSalidaRefrigerio">Salida refrigerio</div>
-                <div class="btnRegistro" id="btnSalidaLabores">Salida labores</div>
+        <div class="contenedor__registro grid-cuatro">
+            <div class="titulo-registros">Último registro</div>
+            <div class="contenedor__registro--fecha">
+                <label>Fecha: </label><input disabled value="13-08-2020"/>
             </div>
+            <div class="contenedor__registro--horario">
+                <label>Horario: </label><input disabled value="18:00"/>
+            </div>
+            <div class="btnRegistro btnRegistro--lab" id="btnIngresoLabores">Ingreso labores</div>
+            <div class="btnRegistro btnRegistro--ref" id="btnIngresoRefrigerio">Ingreso refrigerio</div>
+            <div class="btnRegistro btnRegistro--ref" id="btnSalidaRefrigerio">Salida refrigerio</div>
+            <div class="btnRegistro btnRegistro--lab" id="btnSalidaLabores">Salida labores</div>
         </div>
     
         <div class="contenedor__horaFecha">
