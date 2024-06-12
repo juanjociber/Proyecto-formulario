@@ -18,7 +18,9 @@
             <div class="contenedor-input">
                 <label for="nroDni">N° DNI</label>
                 <input type="tel" id="nroDni">
+                <button onclick="verificarIngreso()">Verificar Ingreso</button>
             </div>
+            
             <div class="grupo-botones">
                 <button class="boton-asistencia" id="btnAsistencia">Asistencia</button>
                 <button class="boton-refrigerio" id="btnRefrigerio">Refrigerio</button>
@@ -34,23 +36,23 @@
             <div class="contenedor-datos">
                 <article class="dato">
                     <label for="codigo">Código</label>
-                    <input type="text" id="codigo" value="13" disabled>
+                    <input type="text" id="codigo" value="" disabled>
                 </article>
                 <article class="dato">
                     <label for="nombre">Nombres</label>
-                    <input type="text" id="nombre" value="Fernando Edilberto" disabled>
+                    <input type="text" id="nombre" value="" disabled>
                 </article>
                 <article class="dato">
                     <label for="apellido">Apellidos</label>
-                    <input type="text" id="apellido" value="Hernández Gonzales" disabled>
+                    <input type="text" id="apellido" value="" disabled>
                 </article>
                 <article class="dato">
                     <label for="dni">DNI</label>
-                    <input type="text" id="dni" value="50505050" disabled>
+                    <input type="text" id="dni" value="" disabled>
                 </article>
                 <article class="dato">
                     <label for="cargo">Cargo</label>
-                    <input type="text" id="cargo" value="Consultor Senior de Proyectos" disabled>
+                    <input type="text" id="cargo" value="" disabled>
                 </article>
             </div>
         </section>
@@ -60,22 +62,22 @@
             <h2 class="titulo-seccion">Registro de actividades</h2>
             <div class="contenedor-fecha-horario">
                 <label class="etiqueta-fecha">Fecha:</label> 
-                <input class="entrada-fecha" disabled value="13-08-2020"/>
+                <input class="entrada-fecha" id="entrada-fecha" disabled value=""/>
                 <label class="etiqueta-horario">Horario:</label>
-                <input class="entrada-horario" disabled value="18:00"/>
+                <input class="entrada-horario" disabled value="18:00:00"/>
             </div>
             <div class="grupo-botones-registro">
-                <button class="boton-registro boton-ingreso-labores" id="btnIngresoLabores">Ingreso labores</button>
-                <button class="boton-registro boton-ingreso-refrigerio" id="btnIngresoRefrigerio">Ingreso refrigerio</button>
-                <button class="boton-registro boton-salida-refrigerio" id="btnSalidaRefrigerio">Salida refrigerio</button>
-                <button class="boton-registro boton-salida-labores" id="btnSalidaLabores">Salida labores</button>
+                <button class="boton-registro boton-ingreso-labores inactivo" id="btnIngresoLabores">Ingreso labores</button>
+                <button class="boton-registro boton-ingreso-refrigerio inactivo" id="btnIngresoRefrigerio">Ingreso refrigerio</button>
+                <button class="boton-registro boton-salida-refrigerio inactivo" id="btnSalidaRefrigerio">Salida refrigerio</button>
+                <button class="boton-registro boton-salida-labores inactivo" id="btnSalidaLabores">Salida labores</button>
             </div>
         </section>
 
         <!-- Hora y Fecha Actual -->
         <section class="seccion-hora-fecha">
-            <time id="horaActual">11:40 a.m</time>
-            <time id="fechaActual">lunes, 10 de junio de 2024</time>
+            <time id="horaActual"></time>
+            <time id="fechaActual"></time>
         </section>
     </main>
  
@@ -85,67 +87,243 @@
             <span class="cerrar">&times;</span>
             <section class="seccion-ingresar-salir">
                 <div class="grupo-botones-registro modificador-botones">
-                    <button class="boton-ingreso boton-ingreso-lab" id="btnIngresoLabores">Ingreso Labores</button>
-                    <button class="boton-salida boton-salida-lab" id="btnSalidaLabores">Salida Labores</button>
-                    <button class="boton-ingreso boton-ingreso-ref" id="btnIngresoRefrigerio">Ingreso Refigerio</button>
-                    <button class="boton-salida boton-salida-ref" id="btnSalidaRefrigerio">Salida Refrigerio</button>
+                    <button class="boton-ingreso boton-ingreso-lab" id="modalBtnIngresoLabores">Ingreso Labores</button>
+                    <button class="boton-salida boton-salida-lab" id="modalBtnSalidaLabores">Salida Labores</button>
+                    <button class="boton-ingreso boton-ingreso-ref" id="modalBtnIngresoRefrigerio">Ingreso Refigerio</button>
+                    <button class="boton-salida boton-salida-ref" id="modalBtnSalidaRefrigerio">Salida Refrigerio</button>
                 </div>
             </section>
         </div>
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const modal = document.getElementById("modal");
-            const span = document.getElementsByClassName("cerrar")[0];
+        // OBJETO QUE SIMULA USUARIOS REGISTRADOS EN BASE DE DATOS
+        const usuarios = [
+            {
+                codigo: "13",
+                nombre: "Fernando Edilberto",
+                apellido: "Hernández Gonzales",
+                dni: "50505050",
+                cargo: "Consultor Senior de Proyectos"
+            },
+            {
+                codigo: "14",
+                nombre: "Maria Fernanda",
+                apellido: "Perez Lopez",
+                dni: "40404040",
+                cargo: "Gerente de Ventas"
+            }
+        ]
 
+        //FUNCIÓN QUE PERMITE VERIFICAR LA HORA DE INGRESO
+        function verificarIngreso() {
+            let dni = document.getElementById("nroDni").value;
+
+            if (dni.trim() === "") {
+                alert("Por favor, ingrese un DNI válido.");
+                return;
+            }
+
+            // Verificar si el DNI existe en la lista de usuarios
+            let dniEncontrado = usuarios.some(usuario => usuario.dni === dni);
+
+            if (dniEncontrado) {
+
+                console.log(dniEncontrado);
+
+                // Llenar los campos con los datos del usuario
+                document.getElementById("codigo").value = usuarios.codigo;
+                document.getElementById("nombre").value = usuarios.nombre;
+                document.getElementById("apellido").value = usuarios.apellido;
+                document.getElementById("dni").value = usuarios.dni;
+                document.getElementById("cargo").value = usuarios.cargo;
+
+                // Obtener la hora actual
+                let horaActual = new Date();
+                // Obtener horas y minutos
+                let horas = horaActual.getHours();
+                let minutos = horaActual.getMinutes();
+
+                if(minutos < 10){
+                    minutos = `0 ${minutos}`;
+                }
+                let horaFormateada = horas + ":" + minutos;
+                
+                // Establecer la hora de ingreso permitida (17:00)
+                let horaIngresoPermitida = new Date();
+                horaIngresoPermitida.setHours(10,34, 0, 0);
+
+                // Calcular la hora de ingreso actual del usuario
+                let horaIngreso = new Date();
+                horaIngreso.setHours(horaIngreso.getHours(), horaIngreso.getMinutes(), 0, 0);
+
+                // Calcular la diferencia en minutos entre la hora de ingreso permitida y la hora actual
+                let diferenciaMinutos = (horaActual.getTime() - horaIngresoPermitida.getTime()) / (1000 * 60);
+
+                // Verificar si la diferencia es menor o igual a 5 minutos y mayor o igual a 0
+                if (diferenciaMinutos <= 5 && diferenciaMinutos >= 0) {
+                    console.log("¡Ingreso válido dentro del límite de tiempo!");
+                    // Aquí puedes realizar la lógica de verificación de ingreso usando el DNI
+                    // Por ahora, solo un mensaje de demostración
+                    console.log("DNI ingresado:", dni);
+                } else {
+                    alert(`Lo siento, el ingreso no es válido. Solo puede ingresar si son exactamente 5 minutos antes de las ${horaFormateada}`);
+                }
+            } else {
+                alert("El DNI ingresado no existe en la lista de usuarios.");
+            }
+        }
+
+
+        // BOTONES PRINCIPALES
+        const btnAsistencia = document.querySelector('#btnAsistencia');
+        const btnRefrigerio = document.querySelector('#btnRefrigerio');
+        
+        // BOTONES PARA FUNCIONALIDAS DE MODAL
+        const modal = document.getElementById("modal");
+        const span = document.getElementsByClassName("cerrar")[0];
+        
+        // INICIALIZANDO MODAL EN NONE.
+        modal.style.display = "none";
+
+        // FUNCIÓN PARA MOSTRAR/OCULTAR BOTONES
+        function toggleButtons(ingresoClass, salidaClass, show) {
+            const action = show ? 'remove' : 'add';
+            document.querySelector(ingresoClass).classList[action]('hidden');
+            document.querySelector(salidaClass).classList[action]('hidden');
+        }
+
+        // FUNCIÓN PARA REMOVER LA CLASE 'hidden' DE LOS BOTONES
+        function removeHiddenClass() {
+            const hiddenButtons = document.querySelectorAll('.hidden');
+            hiddenButtons.forEach(button => button.classList.remove('hidden'));
+        }
+
+        // FUNCIÓN QUE AGREGA ATTRIBUTE 'disabled' A ELEMENTO QUE SE LE PASA SU 'Id'
+        function setAttributeButton(id){
+            document.querySelector(id).setAttribute("disabled", "disabled");
+        }
+
+        // EVENTO CLICK PARA EL BOTÓN DE ASISTENCIA
+        btnAsistencia.addEventListener('click', () => {
+            modal.style.display = 'flex';
+            toggleButtons('.boton-ingreso-ref', '.boton-salida-ref', false);
+            toggleButtons('.boton-ingreso-lab', '.boton-salida-lab', true);
+            setAttributeButton("#modalBtnSalidaLabores");
+        });
+
+        // EVENTO CLICK PARA EL BOTÓN DE REFRIGERIO
+        btnRefrigerio.addEventListener('click', () => {
+            modal.style.display = 'flex';
+            toggleButtons('.boton-ingreso-lab', '.boton-salida-lab', false);
+            toggleButtons('.boton-ingreso-ref', '.boton-salida-ref', true);
+        });
+
+        // EVENTO PARA CERRAR EL MODAL
+        span.onclick = function() {
             modal.style.display = "none";
+            removeHiddenClass();
+        }
 
-            // Referencia a los botones principales
-            const btnAsistencia = document.querySelector('#btnAsistencia');
-            const btnRefrigerio = document.querySelector('#btnRefrigerio');
-
-            // Función para mostrar/ocultar botones
-            function toggleButtons(ingresoClass, salidaClass, show) {
-                const action = show ? 'remove' : 'add';
-                document.querySelector(ingresoClass).classList[action]('hidden');
-                document.querySelector(salidaClass).classList[action]('hidden');
-            }
-
-            // Función para remover la clase 'hidden' de los botones
-            function removeHiddenClass() {
-                const hiddenButtons = document.querySelectorAll('.hidden');
-                hiddenButtons.forEach(button => button.classList.remove('hidden'));
-            }
-
-            // Evento click para el botón de asistencia
-            btnAsistencia.addEventListener('click', () => {
-                modal.style.display = 'flex';
-                toggleButtons('.boton-ingreso-ref', '.boton-salida-ref', false);
-                toggleButtons('.boton-ingreso-lab', '.boton-salida-lab', true);
-            });
-
-            // Evento click para el botón de refrigerio
-            btnRefrigerio.addEventListener('click', () => {
-                modal.style.display = 'flex';
-                toggleButtons('.boton-ingreso-lab', '.boton-salida-lab', false);
-                toggleButtons('.boton-ingreso-ref', '.boton-salida-ref', true);
-            });
-
-            // Evento para cerrar el modal
-            span.onclick = function() {
+        // EVENTO PARA CERRAR EL MODAL AL DAR CLICK FUERA DEL MODAL
+        window.onclick = function(event) {
+            if (event.target == modal) {
                 modal.style.display = "none";
                 removeHiddenClass();
             }
+        }
 
-            // Evento para cerrar el modal cuando se hace click fuera de él
-            window.onclick = function(event) {
-                if (event.target == modal) {
-                    modal.style.display = "none";
-                    removeHiddenClass();
-                }
-            }
+    
+        /*  ===========================================
+            FUNCIONALIDADES PARA LOS BOTONES DEL MODAL
+            ===========================================
+        */
+        function obtenerFechaActualCorta() {
+            const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+            return new Date().toLocaleDateString('es-ES', options);
+        }
+
+        function removeInactiveClass(id){
+            document.querySelector(id).classList.remove('inactivo'); 
+        }
+
+        /*ACTIVIDADES DE BOTONES LABORES :*/
+        /* INGRESO:*/
+        document.getElementById("modalBtnIngresoLabores").addEventListener('click',()=>{
+            let currentDate = document.querySelector("#entrada-fecha");
+            currentDate.value = obtenerFechaActualCorta();
+            modal.style.display = "none";
+            //ACTIVACIÓN DE BOTON: INGRESO LABORES
+            removeInactiveClass("#btnIngresoLabores");
         });
+        /* SALIDA :*/
+        document.getElementById("modalBtnSalidaLabores").addEventListener('click',()=>{
+            //let currentDate = document.querySelector("#entrada-fecha");
+            //currentDate.value = obtenerFechaActualCorta();
+            modal.style.display = "none";
+            //ACTIVACIÓN DE BOTON: INGRESO LABORES
+            removeInactiveClass("#btnSalidaLabores");
+
+        });
+        
+        /*ACTIVIDADES DE BOTONES REFRIGERIO : */ 
+        /* INGRESO:*/
+        document.getElementById("modalBtnIngresoRefrigerio").addEventListener('click',()=>{
+            //let currentDate = document.querySelector("#entrada-fecha");
+            //currentDate.value = obtenerFechaActualCorta();
+            modal.style.display = "none";
+            //ACTIVACIÓN DE BOTON: INGRESO LABORES
+            removeInactiveClass("#btnIngresoRefrigerio");
+        });
+        /* SALIDA :*/
+        document.getElementById("modalBtnSalidaRefrigerio").addEventListener('click',()=>{
+            //let currentDate = document.querySelector("#entrada-fecha");
+            //currentDate.value = obtenerFechaActualCorta();
+            modal.style.display = "none";
+            //ACTIVACIÓN DE BOTON: INGRESO LABORES
+            removeInactiveClass("#btnSalidaRefrigerio");
+        });
+
+        /*  ==========================
+            HORA Y FECHA ACTUAL
+            ==========================
+        */ 
+        // Función para obtener la hora actual en formato AM/PM
+        function obtenerHoraActual() {
+            const ahora = new Date();
+            let horas = ahora.getHours();
+            let minutos = ahora.getMinutes();
+            const ampm = horas >= 12 ? 'p.m.' : 'a.m.';
+            horas = horas % 12;
+            horas = horas ? horas : 12; // las 0 horas se convierten a 12
+            minutos = minutos < 10 ? '0' + minutos : minutos;
+            return horas + ':' + minutos + ' ' + ampm;
+        }
+
+        // Función para obtener la fecha actual en formato día de la semana, día, mes y año
+        function obtenerFechaActual() {
+            const opcionesFecha = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date().toLocaleDateString('es-ES', opcionesFecha);
+        }
+
+        // Actualizar la hora y fecha actual cada segundo
+        function actualizarHoraFecha() {
+            const horaActualElemento = document.getElementById('horaActual');
+            const fechaActualElemento = document.getElementById('fechaActual');
+
+            horaActualElemento.textContent = obtenerHoraActual();
+            fechaActualElemento.textContent = obtenerFechaActual();
+        }
+
+        // Actualizar la hora y fecha actual inicialmente
+        actualizarHoraFecha();
+
+        // Actualizar cada segundo
+        setInterval(actualizarHoraFecha, 1000);
+        
+        
+
+
     </script>
 </body>
 </html>

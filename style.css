@@ -20,8 +20,10 @@ img{
     width: min(98%, 120rem);
     margin: 1rem auto;
 }
-
 .hidden{
+    display: none;
+}
+.inactivo{
     display: none;
 }
 
