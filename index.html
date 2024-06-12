@@ -12,6 +12,7 @@ body{
     font-size: 16px;
     font-family: 'Roboto', sans-serif;
     color: #666666;
+    position: relative;
 }
 p{
     margin: 0;
@@ -110,6 +111,41 @@ input{
     transform: scale(0.9);   
 }
 
+/*  ================================================
+    Estilos  botones ingersar y sair
+    ================================================
+*/
+.contenedor-ingresar-salir{
+    display: none;
+    border: 1px solid #dadada;
+    width: min(94%, 120rem);
+    margin: 0 auto;
+    background-color: #FFFFFF;
+    padding: 10px;
+    position: absolute;
+    top: 50%;
+    bottom: 50%;
+    height: 60px;
+}
+.botones--mod{
+    display: flex;
+}
+.botones--mod button{
+    width: 40%;
+    margin-bottom: 0;
+}
+
+@media(min-width:768px){
+    .contenedor-ingresar-salir{
+        border: 1px solid red;
+     
+    }
+    .botones--mod button{
+        /* width: 20%; */
+        
+        margin-bottom: 0;
+    }
+}
 /*  ================================================
     Estilos  Información del usuario
     ================================================
@@ -310,9 +346,6 @@ input{
         align-items: center;
         margin-top: 20px;
     }
-    /* .btnRegistro{
-        width: 120px;
-    } */
 }
 
 @media(min-width:992px){
@@ -423,5 +456,12 @@ input{
             <time id="fechaActual">lunes, 10 de junio de 2024</time>
         </footer>
     </main>
+    <!-- Botones ingresar y salir -->
+    <section class="contenedor-ingresar-salir">
+        <div class="botones botones--mod">
+            <button class="botones__asistencia">Ingresar</button>
+            <button class="botones__refrigerio">Salir</button>
+        </div>
+    </section>
 </body>
 </html>
