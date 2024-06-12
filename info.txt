@@ -1,0 +1,349 @@
+import React from "react";
+import "./styles.css"; // Asegúrate de que esta hoja de estilos contenga el CSS proporcionado
+
+const App = () => {
+  return (
+    <>
+      <meta charSet="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Marcación GPEM S.A.C</title>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+        rel="stylesheet"
+      />
+      <main className="contenedor">
+        {/* Opciones */}
+        <section className="contenedor__opciones">
+          <h2 className="titulo-opciones">Ingresar DNI</h2>
+          <div className="caja-opciones">
+            <label htmlFor="nroDni">N° DNI</label>
+            <input type="tel" id="nroDni" />
+          </div>
+          <div className="botones">
+            <button className="botones__asistencia">Asistencia</button>
+            <button className="botones__refrigerio">Refrigerio</button>
+          </div>
+        </section>
+        {/* Información del usuario */}
+        <section className="contenedor__informacion grid-dos">
+          <h2 className="titulo-informacion">Información del usuario</h2>
+          <div className="foto">
+            <img src="img/foto.png" alt="Foto del usuario" />
+          </div>
+          <div className="cajas">
+            <article className="caja">
+              <label htmlFor="codigo">Código</label>
+              <input type="text" id="codigo" defaultValue={13} disabled />
+            </article>
+            <article className="caja">
+              <label htmlFor="nombre">Nombres</label>
+              <input
+                type="text"
+                id="nombre"
+                defaultValue="Fernando Edilberto"
+                disabled
+              />
+            </article>
+            <article className="caja">
+              <label htmlFor="apellido">Apellidos</label>
+              <input
+                type="text"
+                id="apellido"
+                defaultValue="Hernández Gonzales"
+                disabled
+              />
+            </article>
+            <article className="caja">
+              <label htmlFor="dni">DNI</label>
+              <input type="text" id="dni" defaultValue={50505050} disabled />
+            </article>
+            <article className="caja">
+              <label htmlFor="cargo">Cargo</label>
+              <input
+                type="text"
+                id="cargo"
+                defaultValue="Consultor Senior de Proyectos"
+                disabled
+              />
+            </article>
+          </div>
+        </section>
+        {/* Registro */}
+        <section className="contenedor__registro grid-cuatro">
+          <h2 className="titulo-registros">Registro de actividades</h2>
+          <div className="fecha-horario">
+            <label className="fecha-label">Fecha:</label>
+            <input className="fecha-input" disabled defaultValue="13-08-2020" />
+            <label className="horario-label">Horario:</label>
+            <input className="horario-input" disabled defaultValue="18:00" />
+          </div>
+          <div className="registro-botones">
+            <button
+              className="btnRegistro btnRegistro--labIngreso"
+              id="btnIngresoLabores"
+            >
+              Ingreso labores
+            </button>
+            <button
+              className="btnRegistro btnRegistro--refIngreso"
+              id="btnIngresoRefrigerio"
+            >
+              Ingreso refrigerio
+            </button>
+            <button
+              className="btnRegistro btnRegistro--refSalida"
+              id="btnSalidaRefrigerio"
+            >
+              Salida refrigerio
+            </button>
+            <button
+              className="btnRegistro btnRegistro--labSalida"
+              id="btnSalidaLabores"
+            >
+              Salida labores
+            </button>
+          </div>
+        </section>
+        {/* Hora y Fecha Actual */}
+        <footer className="contenedor__horaFecha">
+          <time id="horaActual">11:40 a.m</time>
+          <time id="fechaActual">lunes, 10 de junio de 2024</time>
+        </footer>
+      </main>
+      {/* Botones ingresar y salir */}
+      <section className="contenedor-ingresar-salir">
+        <div className="botones botones--mod">
+          <button className="botones__asistencia">Ingresar</button>
+          <button className="botones__refrigerio">Salir</button>
+        </div>
+      </section>
+    </>
+  );
+};
+
+export default App;
+
+
+APP:
+
+import React, { useState } from "react";
+import Opciones from "./Opciones";
+import InformacionUsuario from "./InformacionUsuario";
+import Registro from "./Registro";
+import HoraFecha from "./HoraFecha";
+import "./styles.css";
+
+const App = () => {
+  const [userData, setUserData] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentDateTime, setCurrentDateTime] = useState(null);
+
+  const handleDniInput = (e) => {
+    const dni = e.target.value;
+    // Datos estáticos para el ejemplo
+    const datos = {
+      dni: 50505050,
+      codigo: 13,
+      nombres: "Fernando Edilberto",
+      apellidos: "Hernández Gonzales",
+      cargo: "Consultor Senior de Proyectos",
+    };
+
+    if (dni === "50505050") {
+      setUserData(datos);
+    } else {
+      setUserData({});
+    }
+  };
+
+  const handleAsistenciaClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleIngresarClick = () => {
+    const now = new Date();
+    const formattedDateTime = `${now.toLocaleDateString()} ${now.toLocaleTimeString()}`;
+    setCurrentDateTime(formattedDateTime);
+    setIsModalOpen(false);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  return (
+    <>
+      <meta charSet="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Marcación GPEM S.A.C</title>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+        rel="stylesheet"
+      />
+      <main className="contenedor">
+        <Opciones handleDniInput={handleDniInput} handleAsistenciaClick={handleAsistenciaClick} />
+        <InformacionUsuario userData={userData} />
+        {currentDateTime && <p>Fecha y Hora de Ingreso: {currentDateTime}</p>}
+        <Registro />
+        <HoraFecha />
+      </main>
+      {isModalOpen && <div className="modal-overlay" onClick={handleCloseModal}></div>}
+      <section className={`contenedor-ingresar-salir ${isModalOpen ? 'modal-open' : ''}`}>
+        <div className="botones botones--mod">
+          <button className="botones__asistencia" onClick={handleIngresarClick}>Ingresar</button>
+          <button className="botones__refrigerio" onClick={handleCloseModal}>Salir</button>
+        </div>
+      </section>
+    </>
+  );
+};
+
+export default App;
+
+
+
+Options:
+import React from "react";
+
+const Opciones = ({ handleDniInput, handleAsistenciaClick }) => {
+  return (
+    <section className="contenedor__opciones">
+      <h2 className="titulo-opciones">Ingresar DNI</h2>
+      <div className="caja-opciones">
+        <label htmlFor="nroDni">N° DNI</label>
+        <input type="tel" id="nroDni" onChange={handleDniInput} />
+      </div>
+      <div className="botones">
+        <button className="botones__asistencia" onClick={handleAsistenciaClick}>Asistencia</button>
+        <button className="botones__refrigerio">Refrigerio</button>
+      </div>
+    </section>
+  );
+};
+
+export default Opciones;
+
+
+
+Informacion usuario:
+import React from "react";
+
+const InformacionUsuario = ({ userData }) => {
+  return (
+    <section className="contenedor__informacion grid-dos">
+      <h2 className="titulo-informacion">Información del usuario</h2>
+      <div className="foto">
+        <img src="img/foto.png" alt="Foto del usuario" />
+      </div>
+      <div className="cajas">
+        <article className="caja">
+          <label htmlFor="codigo">Código</label>
+          <input
+            type="text"
+            id="codigo"
+            value={userData.codigo || ""}
+            disabled
+          />
+        </article>
+        <article className="caja">
+          <label htmlFor="nombre">Nombres</label>
+          <input
+            type="text"
+            id="nombre"
+            value={userData.nombres || ""}
+            disabled
+          />
+        </article>
+        <article className="caja">
+          <label htmlFor="apellido">Apellidos</label>
+          <input
+            type="text"
+            id="apellido"
+            value={userData.apellidos || ""}
+            disabled
+          />
+        </article>
+        <article className="caja">
+          <label htmlFor="dni">DNI</label>
+          <input type="text" id="dni" value={userData.dni || ""} disabled />
+        </article>
+        <article className="caja">
+          <label htmlFor="cargo">Cargo</label>
+          <input
+            type="text"
+            id="cargo"
+            value={userData.cargo || ""}
+            disabled
+          />
+        </article>
+      </div>
+    </section>
+  );
+};
+
+export default InformacionUsuario;
+
+
+
+Regristro:
+import React from "react";
+
+const Registro = () => {
+  return (
+    <section className="contenedor__registro grid-cuatro">
+      <h2 className="titulo-registros">Registro de actividades</h2>
+      <div className="fecha-horario">
+        <label className="fecha-label">Fecha:</label>
+        <input className="fecha-input" disabled defaultValue="13-08-2020" />
+        <label className="horario-label">Horario:</label>
+        <input className="horario-input" disabled defaultValue="18:00" />
+      </div>
+      <div className="registro-botones">
+        <button
+          className="btnRegistro btnRegistro--labIngreso"
+          id="btnIngresoLabores"
+        >
+          Ingreso labores
+        </button>
+        <button
+          className="btnRegistro btnRegistro--refIngreso"
+          id="btnIngresoRefrigerio"
+        >
+          Ingreso refrigerio
+        </button>
+        <button
+          className="btnRegistro btnRegistro--refSalida"
+          id="btnSalidaRefrigerio"
+        >
+          Salida refrigerio
+        </button>
+        <button
+          className="btnRegistro btnRegistro--labSalida"
+          id="btnSalidaLabores"
+        >
+          Salida labores
+        </button>
+      </div>
+    </section>
+  );
+};
+
+export default Registro;
+
+
+Hora fecha:
+
+import React from "react";
+
+const HoraFecha = () => {
+  return (
+    <footer className="contenedor__horaFecha">
+      <time id="horaActual">11:40 a.m</time>
+      <time id="fechaActual">lunes, 10 de junio de 2024</time>
+    </footer>
+  );
+};
+
+export default HoraFecha;
+
+

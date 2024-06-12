@@ -115,7 +115,7 @@ input{
     Estilos  botones ingersar y sair
     ================================================
 */
-.contenedor-ingresar-salir{
+/* .contenedor-ingresar-salir{
     display: none;
     border: 1px solid #dadada;
     width: min(94%, 120rem);
@@ -126,7 +126,39 @@ input{
     top: 50%;
     bottom: 50%;
     height: 60px;
+} */
+
+.contenedor-ingresar-salir {
+  display: none;
+  border: 1px solid #dadada;
+  width: min(94%, 120rem);
+  margin: 0 auto;
+  background-color: #ffffff;
+  padding: 10px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 60px;
+  z-index: 1000;
 }
+
+.contenedor-ingresar-salir.modal-open {
+  display: block;
+}
+
+/* Estilos para el fondo oscuro cuando el modal está abierto */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+
 .botones--mod{
     display: flex;
 }
