@@ -20,8 +20,8 @@
                 <input type="tel" id="nroDni">
             </div>
             <div class="grupo-botones">
-                <button class="boton-asistencia" id="abrirModal">Asistencia</button>
-                <button class="boton-refrigerio">Refrigerio</button>
+                <button class="boton-asistencia" id="btnAsistencia">Asistencia</button>
+                <button class="boton-refrigerio" id="btnRefrigerio">Refrigerio</button>
             </div>
         </section>
 
@@ -85,35 +85,67 @@
             <span class="cerrar">&times;</span>
             <section class="seccion-ingresar-salir">
                 <div class="grupo-botones-registro modificador-botones">
-                    <button class="boton-ingreso boton-ingreso-ref">Ingreso[lab-ref]</button>
-                    <button class="boton-salida boton-salida-ref">Salida[lab-ref]</button>
+                    <button class="boton-ingreso boton-ingreso-lab" id="btnIngresoLabores">Ingreso Labores</button>
+                    <button class="boton-salida boton-salida-lab" id="btnSalidaLabores">Salida Labores</button>
+                    <button class="boton-ingreso boton-ingreso-ref" id="btnIngresoRefrigerio">Ingreso Refigerio</button>
+                    <button class="boton-salida boton-salida-ref" id="btnSalidaRefrigerio">Salida Refrigerio</button>
                 </div>
             </section>
         </div>
     </div>
 
     <script>
-        let modal = document.getElementById("modal");
-        let btn = document.getElementById("abrirModal");
-        let span = document.getElementsByClassName("cerrar")[0];
-        
-        document.addEventListener("DOMContentLoaded",function(){
-            modal.style.display="none";     
-        });
+        document.addEventListener("DOMContentLoaded", function() {
+            const modal = document.getElementById("modal");
+            const span = document.getElementsByClassName("cerrar")[0];
 
-        btn.onclick = function() {
-            modal.style.display = "flex";
-        }
-
-        span.onclick = function() {
             modal.style.display = "none";
-        }
 
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
+            // Referencia a los botones principales
+            const btnAsistencia = document.querySelector('#btnAsistencia');
+            const btnRefrigerio = document.querySelector('#btnRefrigerio');
+
+            // Función para mostrar/ocultar botones
+            function toggleButtons(ingresoClass, salidaClass, show) {
+                const action = show ? 'remove' : 'add';
+                document.querySelector(ingresoClass).classList[action]('hidden');
+                document.querySelector(salidaClass).classList[action]('hidden');
             }
-        }
+
+            // Función para remover la clase 'hidden' de los botones
+            function removeHiddenClass() {
+                const hiddenButtons = document.querySelectorAll('.hidden');
+                hiddenButtons.forEach(button => button.classList.remove('hidden'));
+            }
+
+            // Evento click para el botón de asistencia
+            btnAsistencia.addEventListener('click', () => {
+                modal.style.display = 'flex';
+                toggleButtons('.boton-ingreso-ref', '.boton-salida-ref', false);
+                toggleButtons('.boton-ingreso-lab', '.boton-salida-lab', true);
+            });
+
+            // Evento click para el botón de refrigerio
+            btnRefrigerio.addEventListener('click', () => {
+                modal.style.display = 'flex';
+                toggleButtons('.boton-ingreso-lab', '.boton-salida-lab', false);
+                toggleButtons('.boton-ingreso-ref', '.boton-salida-ref', true);
+            });
+
+            // Evento para cerrar el modal
+            span.onclick = function() {
+                modal.style.display = "none";
+                removeHiddenClass();
+            }
+
+            // Evento para cerrar el modal cuando se hace click fuera de él
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                    removeHiddenClass();
+                }
+            }
+        });
     </script>
 </body>
 </html>
