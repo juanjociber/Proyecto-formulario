@@ -318,7 +318,7 @@ img{
 .modal {
     display: none; /* Oculto por defecto */
     position: fixed; /* Fijado en la ventana */
-    z-index: 1; /* Encima del contenido */
+    z-index: 1; /*Encima del contenido */
     left: 0;
     top: 0;
     width: 100%;
@@ -331,6 +331,7 @@ img{
 }
 /* Contenido del modal */
 .modal-contenido {
+    /* display: none; */
     background-color: white;
     padding: 10px;
     border-radius: 4px;
@@ -338,7 +339,6 @@ img{
     max-width: 500px;
     text-align: center;
 }
-
 /* Estilos de los botones (ejemplo, puedes personalizarlos) */
 .boton-ingreso, .boton-salida {
     padding: 10px 20px;
@@ -347,7 +347,6 @@ img{
     border-radius: 5px;
     cursor: pointer;
 }
-
 .boton-ingreso {
     background-color: #4CAF50; /* Color de fondo del botón de ingreso */
     box-shadow: 0 4px #439d46;
@@ -360,7 +359,6 @@ img{
 .boton-ingreso:active{
     transform: scale(0.9);   
 }
-
 .boton-salida {
     background-color: #f44336; /* Color de fondo del botón de salida */
     box-shadow: 0 4px #e33f33;

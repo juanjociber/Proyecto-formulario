@@ -20,7 +20,7 @@
                 <input type="tel" id="nroDni">
             </div>
             <div class="grupo-botones">
-                <button class="boton-asistencia">Asistencia</button>
+                <button class="boton-asistencia" id="abrirModal">Asistencia</button>
                 <button class="boton-refrigerio">Refrigerio</button>
             </div>
         </section>
@@ -78,6 +78,7 @@
             <time id="fechaActual">lunes, 10 de junio de 2024</time>
         </section>
     </main>
+ 
     <!-- Botones ingresar y salir -->
     <div id="miModal" class="modal">
         <div class="modal-contenido">
@@ -89,5 +90,25 @@
             </section>
         </div>
     </div>
+
+    <script>
+        // Obtener el modal
+        var modal = document.getElementById("miModal");
+    
+        // Obtener el botón que abre el modal
+        var btn = document.getElementById("abrirModal");
+    
+        // Abrir el modal al hacer clic en el botón
+        btn.onclick = function() {
+            modal.style.display = "flex";
+        }
+    
+        // Cerrar el modal al hacer clic fuera del contenido del modal
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 </body>
 </html>
