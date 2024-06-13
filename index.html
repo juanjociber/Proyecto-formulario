@@ -150,7 +150,32 @@
                 fecha:"2024-06-13",
                 condicion:1,
                 turnoinicio: "08:00:00",
-                turnofinl:"18:00:00",
+                turnofinal:"18:00:00",
+                programacion1:"2024-06-13 08:00:00",
+                programacion2:"2024-06-13 18:00:00",
+                asistencia1:null,
+                asistencia2:null,
+                desayuno1:null,
+                desayuno2:null,
+                refrigerio1:null,
+                refrigerio2:null,
+                tecnicosino:0,
+                estado:0,
+                observacion:null,
+                ccnivel:51,
+                actualizacion:null,
+                gps_direccion:null,
+                gps_longitud:null,
+                gps_latitud:null
+            },
+            {
+                idmarcacion:2,
+                idpersonal:2,
+                idturno:1,
+                fecha:"2024-06-13",
+                condicion:1,
+                turnoinicio: "08:00:00",
+                turnofinal:"18:00:00",
                 programacion1:"2024-06-13 08:00:00",
                 programacion2:"2024-06-13 18:00:00",
                 asistencia1:null,
@@ -217,21 +242,23 @@
             }
         ]
 
+
         //FUNCIÓN PARA OBTENER INFORMACIÓN DE CADA COLABORADOR (ÁREA,CARGO, MARCACIONES,ETC.)
-        const getPersonalDetails = (dniPersonal) => {
+        const getPersonalDetails = (idPersonal) => {
             //BUSCAR COLABORADOR POR SU ID
-            const person = personal.find(p => p.pers_dni === dniPersonal);
+            const person = personal.find(p => p.pers_codigo === idPersonal);
             //VALIDANDO SI EXISTE COLABORADOR
             if (!person) {
-                console.warn("El DNI ingresado no existe");
                 return null;
+                console.log("El ID no está registrado en la base de datos");
+                
             }
             //SE OBTIENE LOS CARGOS
             const cargo = cargos.find(c => c.idcargo === person.idcargo);
             //SE OBTIENE LAS ÁREAS
             const area = areas.find(a => a.idarea === person.idarea);
             // SE OBTIENE LAS MARCACIONES A TRAVÉS DEL ID PERSONA
-            const marcacion = marcaciones.filter(m => m.pers_dni === dniPersonal);
+            const marcacion = marcaciones.filter(m => m.idpersonal === idPersonal);
 
             return { 
                 ...person,
@@ -240,49 +267,71 @@
                 marcaciones: marcacion
             };
         }
-        console.log(getPersonalDetails(1));
 
-        // OBTIENE INFORMACIÓN DE COLABORADOR POR DNI Y VALIDA EL BOTÓN DE MARCACIÓN
+        // FUNCIÓN PARA OBTENER EL 'ID' DLE COLABORADOR POR SU DNI
+        const getIdByDni = (nroDni) => {
+            const person = personal.find(p => p.pers_dni === nroDni);
+            return person ? person.pers_codigo : null;
+        }
+
+        // FUNCIÓN PARA OBTENER INFORMACIÓN DE COLABORADOR POR DNI
         const consultarDni = () => {
-            const dni = document.querySelector('#nroDni').value.trim();
+            const nroDni = document.querySelector('#nroDni').value.trim();
+            let regex = /^[0-9]+$/;
 
-            if(dni == ''){
-                console.warn('Por favor, ingrese un DNI.')
+            if (nroDni === '') {
+                console.log('Por favor ingrese el número de DNI.');
                 return;
             }
-            // ALMACENDO EN ESTA VARIABLE EL OBJETO GENERADO POR ESTA FUNCIÓN
-            const detalleColaborador = getPersonalDetails(dni);
+            
+            if (nroDni !== '' && !regex.test(nroDni)) {
+                console.log('El DNI debe contener solo números.');
+                document.querySelector('#nroDni').value = ''; 
+                return false;
+            }
 
+            if (nroDni.length !== 8) {
+                console.log('El DNI debe contener exactamente 8 dígitos.');
+                document.querySelector('#nroDni').value = ''; 
+                return false;
+            }
+
+            // OBTENER EL 'ID' DE COLABORADOR POR DNI
+            const idPersonal = getIdByDni(nroDni);
+
+            if (!idPersonal) {
+                console.log('El DNI ingresado no existe.');
+                return;
+            }
+
+            // OBTENER DETALLES DEL COLABORADOR POR SU 'ID'
+            const detalleColaborador = getPersonalDetails(idPersonal);
+            
             if (detalleColaborador) {
-                // MUESTRA INFORMACIÓN EN CAMPOS RESPECTIVOS
                 document.getElementById('codigo').value = detalleColaborador.pers_codigo;
                 document.getElementById('nombre').value = detalleColaborador.pers_nombres;
                 document.getElementById('apellido').value = detalleColaborador.pers_apellidos;
                 document.getElementById('dni').value = detalleColaborador.pers_dni;
                 document.getElementById('cargo').value = detalleColaborador.cargo;
 
-                // Habilitar botones según las marcaciones o el estado del colaborador, por ejemplo:
-
-
-                // Aquí se debería implementar la lógica para habilitar/deshabilitar botones según las marcaciones o el estado del colaborador
+                // Habilitar botones según las marcaciones o el estado del colaborador (implementación futura)
 
                 console.log(detalleColaborador);
-            }else{
+            }
+        }
+        document.querySelector('#nroDni').addEventListener('change', consultarDni);
+
+
+        const clearDetailsPerson = () => {
+            const detalleColaborador = getPersonalDetails(consultarDni());
                 document.getElementById('codigo').value = "";
                 document.getElementById('nombre').value = "";
                 document.getElementById('apellido').value = "";
                 document.getElementById('dni').value = "";
                 document.getElementById('cargo').value = "";
-            }
+                document.getElementById('nroDni').value = "";
+                document.getElementById('nroDni').focus();
         }
-        
-        document.addEventListener('change',consultarDni);
-
-
-
-
-
-
 
         // BOTONES PRINCIPALES
         const btnAsistencia = document.querySelector('#btnAsistencia');
@@ -315,6 +364,11 @@
 
         // EVENTO CLICK PARA EL BOTÓN DE ASISTENCIA
         btnAsistencia.addEventListener('click', () => {
+            const nroDni = document.querySelector('#nroDni').value.trim();
+            if(nroDni ==''){
+                console.log('NO SE RECONOCE EL DNI\nVerifique antes de continuar')
+                return null;
+            }
             modal.style.display = 'flex';
             toggleButtons('.boton-ingreso-ref', '.boton-salida-ref', false);
             toggleButtons('.boton-ingreso-lab', '.boton-salida-lab', true);
@@ -331,7 +385,6 @@
         // EVENTO PARA CERRAR EL MODAL
         span.onclick = function() {
             modal.style.display = "none";
-            removeHiddenClass();
         }
 
         // EVENTO PARA CERRAR EL MODAL AL DAR CLICK FUERA DEL MODAL
@@ -356,6 +409,12 @@
             document.querySelector(id).classList.remove('inactivo'); 
         }
 
+
+       
+
+
+
+
         /*ACTIVIDADES DE BOTONES LABORES :*/
         /* INGRESO:*/
         document.getElementById("modalBtnIngresoLabores").addEventListener('click',()=>{
@@ -364,6 +423,7 @@
             modal.style.display = "none";
             //ACTIVACIÓN DE BOTON: INGRESO LABORES
             removeInactiveClass("#btnIngresoLabores");
+            clearDetailsPerson();
         });
         /* SALIDA :*/
         document.getElementById("modalBtnSalidaLabores").addEventListener('click',()=>{
@@ -372,7 +432,7 @@
             modal.style.display = "none";
             //ACTIVACIÓN DE BOTON: INGRESO LABORES
             removeInactiveClass("#btnSalidaLabores");
-
+            clearDetailsPerson();
         });
         
         /*ACTIVIDADES DE BOTONES REFRIGERIO : */ 
@@ -383,6 +443,7 @@
             modal.style.display = "none";
             //ACTIVACIÓN DE BOTON: INGRESO LABORES
             removeInactiveClass("#btnIngresoRefrigerio");
+            clearDetailsPerson();
         });
         /* SALIDA :*/
         document.getElementById("modalBtnSalidaRefrigerio").addEventListener('click',()=>{
@@ -391,7 +452,21 @@
             modal.style.display = "none";
             //ACTIVACIÓN DE BOTON: INGRESO LABORES
             removeInactiveClass("#btnSalidaRefrigerio");
+            clearDetailsPerson();
         });
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         /*  ==========================
             HORA Y FECHA ACTUAL
