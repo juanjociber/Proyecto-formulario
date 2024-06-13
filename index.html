@@ -18,7 +18,6 @@
             <div class="contenedor-input">
                 <label for="nroDni">N° DNI</label>
                 <input type="tel" id="nroDni">
-                <!-- <button onclick="verificarIngreso()">Verificar Ingreso</button> -->
             </div>
             
             <div class="grupo-botones">
@@ -97,82 +96,183 @@
     </div>
 
     <script>
-        // OBJETO QUE SIMULA USUARIOS REGISTRADOS EN BASE DE DATOS
-        const usuarios = [
+        // OBJETOS QUE SIMULAN CONSUMO DE BASE DE DATOS
+        const personal = [
             {
-                codigo: "13",
-                nombre: "Fernando Edilberto",
-                apellido: "Hernández Gonzales",
-                dni: "50505050",
-                cargo: "Consultor Senior de Proyectos"
+                pers_codigo: 1,
+                idcargo:1,
+                idarea:1,
+                pers_nombres: "Fernando Edilberto",
+                pers_apellidos: "Hernández Gonzales",
+                pers_alias:"fernando",
+                pers_dni: "50505050",
+                pers_fechaIngreso: "2024-01-01",
+                pers_fechaNac: "1980-01-01",
+                pers_direccion: "Dirección 100",
+                pers_telefono:"989898989",
+                pers_telefono2:"979798987",
+                pers_fechaCese:"2024-02-10",
+                pers_motivoCese:"Solicitud",
+                pers_estado:2,
+                pers_nivel:null,
+                bib_acceso: 1,
+                ccrh:0,
+                pers_actualizacion:null
             },
             {
-                codigo: "14",
-                nombre: "Maria Fernanda",
-                apellido: "Perez Lopez",
-                dni: "40404040",
-                cargo: "Gerente de Ventas"
+                pers_codigo: 2,
+                idcargo:2,
+                idarea:1,
+                pers_nombres: "Maria Fernanda",
+                pers_apellidos: "Perez Lopez",
+                pers_alias:"maria",
+                pers_dni: "40404040",
+                pers_fechaIngreso: "2024-02-01",
+                pers_fechaNac: "1988-02-01",
+                pers_direccion: "Dirección 200",
+                pers_telefono:"979797979",
+                pers_telefono2:"960606060",
+                pers_fechaCese:"2024-06-10",
+                pers_motivoCese:"Solicitud",
+                pers_estado:2,
+                pers_nivel:null,
+                bib_acceso: 1,
+                ccrh:0,
+                pers_actualizacion:null
             }
         ]
 
-        //FUNCIÓN QUE PERMITE VERIFICAR LA HORA DE INGRESO
-        function verificarIngreso() {
-            let dni = document.getElementById("nroDni").value;
+        const marcaciones=[
+            {
+                idmarcacion:1,
+                idpersonal:1,
+                idturno:1,
+                fecha:"2024-06-13",
+                condicion:1,
+                turnoinicio: "08:00:00",
+                turnofinl:"18:00:00",
+                programacion1:"2024-06-13 08:00:00",
+                programacion2:"2024-06-13 18:00:00",
+                asistencia1:null,
+                asistencia2:null,
+                desayuno1:null,
+                desayuno2:null,
+                refrigerio1:null,
+                refrigerio2:null,
+                tecnicosino:0,
+                estado:0,
+                observacion:null,
+                ccnivel:51,
+                actualizacion:null,
+                gps_direccion:null,
+                gps_longitud:null,
+                gps_latitud:null
+            }
+        ]
 
-            if (dni.trim() === "") {
-                alert("Por favor, ingrese un DNI válido.");
+        const areas =[
+            {
+                idarea: 1,
+                area: "Sistemas",
+                estado: 2,
+                usuario: null
+            },
+            {
+                idarea: 2,
+                area: "Administracion",
+                estado: 2,
+                usuario: null
+            }
+        ]
+
+        const cargos =[
+            {
+                idcargo: 1,
+                idarea : 1,
+                cargo : "Programador",
+                estado: 2,
+                usuario:null
+            },
+            {
+                idcargo: 2,
+                idarea : 1,
+                cargo : "Analista TI",
+                estado: 2,
+                usuario:null
+            }
+        ]
+
+        const turnos =[
+            {
+                idturno : 1,
+                turno :"diurno",
+                idturnomtn : 0,
+                horainicio : "08:00:00",
+                horafin : "18:00:00",
+                cambiodia : 0,
+                tipo : 0,
+                bancohrs : 0,
+                estado : 2,
+                actualizacion: 1
+            }
+        ]
+
+        //FUNCIÓN PARA OBTENER INFORMACIÓN DE CADA COLABORADOR (ÁREA,CARGO, MARCACIONES,ETC.)
+        const getPersonalDetails = (dniPersonal) => {
+            //BUSCAR COLABORADOR POR SU ID
+            const person = personal.find(p => p.pers_dni === dniPersonal);
+            //VALIDANDO SI EXISTE COLABORADOR
+            if (!person) {
+                console.warn("El DNI ingresado no existe");
+                return null;
+            }
+            //SE OBTIENE LOS CARGOS
+            const cargo = cargos.find(c => c.idcargo === person.idcargo);
+            //SE OBTIENE LAS ÁREAS
+            const area = areas.find(a => a.idarea === person.idarea);
+            // SE OBTIENE LAS MARCACIONES A TRAVÉS DEL ID PERSONA
+            const marcacion = marcaciones.filter(m => m.pers_dni === dniPersonal);
+
+            return { 
+                ...person,
+                cargo: cargo ? cargo.cargo : null,
+                area: area ? area.area : null,
+                marcaciones: marcacion
+            };
+        }
+        console.log(getPersonalDetails(1));
+
+        // OBTIENE INFORMACIÓN DE COLABORADOR POR DNI Y VALIDA EL BOTÓN DE MARCACIÓN
+        const consultarDni = () => {
+            const dni = document.querySelector('#nroDni').value.trim();
+
+            if(dni == ''){
+                console.warn('Por favor, ingrese un DNI.')
                 return;
             }
+            const detalleColaborador = getPersonalDetails(dni);
 
-            // Verificar si el DNI existe en la lista de usuarios
-            let dniEncontrado = usuarios.some(usuario => usuario.dni === dni);
+            if (detalleColaborador) {
+                // Mostrar información en los campos correspondientes
+                document.getElementById('codigo').value = detalleColaborador.pers_codigo;
+                document.getElementById('nombre').value = detalleColaborador.pers_nombres;
+                document.getElementById('apellido').value = detalleColaborador.pers_apellidos;
+                document.getElementById('dni').value = detalleColaborador.pers_dni;
+                document.getElementById('cargo').value = detalleColaborador.cargo;
 
-            if (dniEncontrado) {
+                // Habilitar botones según las marcaciones o el estado del colaborador, por ejemplo:
+                // Aquí se debería implementar la lógica para habilitar/deshabilitar botones según las marcaciones o el estado del colaborador
 
-                console.log(dniEncontrado);
-
-                // Llenar los campos con los datos del usuario
-                document.getElementById("codigo").value = usuarios.codigo;
-                document.getElementById("nombre").value = usuarios.nombre;
-                document.getElementById("apellido").value = usuarios.apellido;
-                document.getElementById("dni").value = usuarios.dni;
-                document.getElementById("cargo").value = usuarios.cargo;
-
-                // Obtener la hora actual
-                let horaActual = new Date();
-                // Obtener horas y minutos
-                let horas = horaActual.getHours();
-                let minutos = horaActual.getMinutes();
-
-                if(minutos < 10){
-                    minutos = `0 ${minutos}`;
-                }
-                let horaFormateada = horas + ":" + minutos;
-                
-                // Establecer la hora de ingreso permitida (17:00)
-                let horaIngresoPermitida = new Date();
-                horaIngresoPermitida.setHours(10,34, 0, 0);
-
-                // Calcular la hora de ingreso actual del usuario
-                let horaIngreso = new Date();
-                horaIngreso.setHours(horaIngreso.getHours(), horaIngreso.getMinutes(), 0, 0);
-
-                // Calcular la diferencia en minutos entre la hora de ingreso permitida y la hora actual
-                let diferenciaMinutos = (horaActual.getTime() - horaIngresoPermitida.getTime()) / (1000 * 60);
-
-                // Verificar si la diferencia es menor o igual a 5 minutos y mayor o igual a 0
-                if (diferenciaMinutos <= 5 && diferenciaMinutos >= 0) {
-                    console.log("¡Ingreso válido dentro del límite de tiempo!");
-                    // Aquí puedes realizar la lógica de verificación de ingreso usando el DNI
-                    // Por ahora, solo un mensaje de demostración
-                    console.log("DNI ingresado:", dni);
-                } else {
-                    alert(`Lo siento, el ingreso no es válido. Solo puede ingresar si son exactamente 5 minutos antes de las ${horaFormateada}`);
-                }
-            } else {
-                alert("El DNI ingresado no existe en la lista de usuarios.");
+                console.log(detalleColaborador);
             }
         }
+        
+        document.addEventListener('change',consultarDni);
+
+
+
+
+
 
 
         // BOTONES PRINCIPALES
@@ -187,20 +287,20 @@
         modal.style.display = "none";
 
         // FUNCIÓN PARA MOSTRAR/OCULTAR BOTONES
-        function toggleButtons(ingresoClass, salidaClass, show) {
+        const toggleButtons = (ingresoClass, salidaClass, show) => {
             const action = show ? 'remove' : 'add';
             document.querySelector(ingresoClass).classList[action]('hidden');
             document.querySelector(salidaClass).classList[action]('hidden');
         }
 
         // FUNCIÓN PARA REMOVER LA CLASE 'hidden' DE LOS BOTONES
-        function removeHiddenClass() {
+        const removeHiddenClass = () => {
             const hiddenButtons = document.querySelectorAll('.hidden');
             hiddenButtons.forEach(button => button.classList.remove('hidden'));
         }
 
         // FUNCIÓN QUE AGREGA ATTRIBUTE 'disabled' A ELEMENTO QUE SE LE PASA SU 'Id'
-        function setAttributeButton(id){
+        const setAttributeButton = (id) => {
             document.querySelector(id).setAttribute("disabled", "disabled");
         }
 
@@ -209,7 +309,7 @@
             modal.style.display = 'flex';
             toggleButtons('.boton-ingreso-ref', '.boton-salida-ref', false);
             toggleButtons('.boton-ingreso-lab', '.boton-salida-lab', true);
-            setAttributeButton("#modalBtnSalidaLabores");
+            // setAttributeButton("#modalBtnSalidaLabores");
         });
 
         // EVENTO CLICK PARA EL BOTÓN DE REFRIGERIO
@@ -238,12 +338,12 @@
             FUNCIONALIDADES PARA LOS BOTONES DEL MODAL
             ===========================================
         */
-        function obtenerFechaActualCorta() {
+        const obtenerFechaActualCorta = () => {
             const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
             return new Date().toLocaleDateString('es-ES', options);
         }
 
-        function removeInactiveClass(id){
+        const removeInactiveClass = (id) => {
             document.querySelector(id).classList.remove('inactivo'); 
         }
 
@@ -289,7 +389,7 @@
             ==========================
         */ 
         // Función para obtener la hora actual en formato AM/PM
-        function obtenerHoraActual() {
+        const obtenerHoraActual = () => {
             const ahora = new Date();
             let horas = ahora.getHours();
             let minutos = ahora.getMinutes();
@@ -301,13 +401,13 @@
         }
 
         // Función para obtener la fecha actual en formato día de la semana, día, mes y año
-        function obtenerFechaActual() {
+        const obtenerFechaActual = () => {
             const opcionesFecha = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
             return new Date().toLocaleDateString('es-ES', opcionesFecha);
         }
 
         // Actualizar la hora y fecha actual cada segundo
-        function actualizarHoraFecha() {
+        const actualizarHoraFecha = () => {
             const horaActualElemento = document.getElementById('horaActual');
             const fechaActualElemento = document.getElementById('fechaActual');
 
