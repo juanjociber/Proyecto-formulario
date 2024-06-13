@@ -250,10 +250,11 @@
                 console.warn('Por favor, ingrese un DNI.')
                 return;
             }
+            // ALMACENDO EN ESTA VARIABLE EL OBJETO GENERADO POR ESTA FUNCIÓN
             const detalleColaborador = getPersonalDetails(dni);
 
             if (detalleColaborador) {
-                // Mostrar información en los campos correspondientes
+                // MUESTRA INFORMACIÓN EN CAMPOS RESPECTIVOS
                 document.getElementById('codigo').value = detalleColaborador.pers_codigo;
                 document.getElementById('nombre').value = detalleColaborador.pers_nombres;
                 document.getElementById('apellido').value = detalleColaborador.pers_apellidos;
@@ -261,9 +262,17 @@
                 document.getElementById('cargo').value = detalleColaborador.cargo;
 
                 // Habilitar botones según las marcaciones o el estado del colaborador, por ejemplo:
+
+
                 // Aquí se debería implementar la lógica para habilitar/deshabilitar botones según las marcaciones o el estado del colaborador
 
                 console.log(detalleColaborador);
+            }else{
+                document.getElementById('codigo').value = "";
+                document.getElementById('nombre').value = "";
+                document.getElementById('apellido').value = "";
+                document.getElementById('dni').value = "";
+                document.getElementById('cargo').value = "";
             }
         }
         
