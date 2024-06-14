@@ -299,8 +299,18 @@
         }
         // LLAMANDO FUNCIÓN
         restricText("#nroDni");
-        
 
+        // FUNCIÓN QUE LIMITA INGRESO DE CARACTERES NO NUMÉRICOS EN EL INPUT
+        const limitInputToDigits = (inputSelector, maxLength) => {
+            const inputElement = document.querySelector(inputSelector);
+            inputElement.addEventListener('input', function (e) {
+                this.value = this.value.replace(/\D/g, '').slice(0, maxLength);
+            });
+        }
+        // LLAMANDO FUNCIÓN
+        limitInputToDigits('#nroDni', 8);
+        
+        
         // FUNCIÓN PARA OBTENER INFORMACIÓN DE COLABORADOR POR DNI
         const consultarDni = () => {
             const nroDni = document.querySelector('#nroDni').value;
@@ -309,7 +319,7 @@
                 console.log('Por favor ingrese el número de DNI.');
                 return;
             }
-            if (nroDni.length !== 8) {
+            if (nroDni.length !== 8 || !/^\d{8}$/.test(nroDni)) {
                 console.log('El DNI debe contener exactamente 8 dígitos.');
                 document.querySelector('#nroDni').value = ''; 
                 return false;
@@ -513,9 +523,7 @@
         // MÉTODO QUE ACTUALIZA LA FUNCIÓN 'actualizarHoraFecha' CADA SEGUNDO
         setInterval(actualizarHoraFecha, 1000);
 
-
         //GEOLOCALIZACIÓN
-
         async function obtenerDireccion(latitud, longitud) {
             const url = `https://nominatim.openstreetmap.org/reverse?lat=${latitud}&lon=${longitud}&format=json`;
 
