@@ -242,22 +242,15 @@
             }
         ]
 
-
-        //FUNCIÓN PARA OBTENER INFORMACIÓN DE CADA COLABORADOR (ÁREA,CARGO, MARCACIONES,ETC.)
+        //FUNCIÓN PARA OBTENER INFO DE COLABORADOR POR SU 'ID' 
         const getPersonalDetails = (idPersonal) => {
-            //BUSCAR COLABORADOR POR SU ID
             const person = personal.find(p => p.pers_codigo === idPersonal);
-            //VALIDANDO SI EXISTE COLABORADOR
             if (!person) {
                 return null;
-                console.log("El ID no está registrado en la base de datos");
-                
+                console.log("El ID no está registrado en la base de datos"); 
             }
-            //SE OBTIENE LOS CARGOS
             const cargo = cargos.find(c => c.idcargo === person.idcargo);
-            //SE OBTIENE LAS ÁREAS
             const area = areas.find(a => a.idarea === person.idarea);
-            // SE OBTIENE LAS MARCACIONES A TRAVÉS DEL ID PERSONA
             const marcacion = marcaciones.filter(m => m.idpersonal === idPersonal);
 
             return { 
@@ -268,43 +261,44 @@
             };
         }
 
-        // FUNCIÓN PARA OBTENER EL 'ID' DLE COLABORADOR POR SU DNI
+        // FUNCIÓN PARA OBTENER EL 'ID' DE COLABORADOR POR SU DNI
         const getIdByDni = (nroDni) => {
             const person = personal.find(p => p.pers_dni === nroDni);
             return person ? person.pers_codigo : null;
         }
 
+        // FUNCIÓN QUE NO PERMITE INGRESO DE CARACTERES NO NUMERICOS EN EL CAMPO DNI     
+        const restricText = (idInput) =>{
+            document.querySelector(idInput).addEventListener("input", function(event) {
+                let value = event.target.value;
+                event.target.value = value.replace(/\D/g, "");
+            });
+        }
+        // LLAMANDO FUNCIÓN
+        restricText("#nroDni");
+        
+
         // FUNCIÓN PARA OBTENER INFORMACIÓN DE COLABORADOR POR DNI
         const consultarDni = () => {
-            const nroDni = document.querySelector('#nroDni').value.trim();
-            let regex = /^[0-9]+$/;
-
+            const nroDni = document.querySelector('#nroDni').value;
+            // VALIDACIONES
             if (nroDni === '') {
                 console.log('Por favor ingrese el número de DNI.');
                 return;
             }
-            
-            if (nroDni !== '' && !regex.test(nroDni)) {
-                console.log('El DNI debe contener solo números.');
-                document.querySelector('#nroDni').value = ''; 
-                return false;
-            }
-
             if (nroDni.length !== 8) {
                 console.log('El DNI debe contener exactamente 8 dígitos.');
                 document.querySelector('#nroDni').value = ''; 
                 return false;
             }
-
             // OBTENER EL 'ID' DE COLABORADOR POR DNI
             const idPersonal = getIdByDni(nroDni);
-
             if (!idPersonal) {
                 console.log('El DNI ingresado no existe.');
+                document.querySelector('#nroDni').value = ''; 
                 return;
             }
-
-            // OBTENER DETALLES DEL COLABORADOR POR SU 'ID'
+            // OBTENER DETALLES DEL COLABORADOR POR SU 'ID' Y LUEGO CARGAR EN FORMULARIO
             const detalleColaborador = getPersonalDetails(idPersonal);
             
             if (detalleColaborador) {
@@ -315,23 +309,34 @@
                 document.getElementById('cargo').value = detalleColaborador.cargo;
 
                 // Habilitar botones según las marcaciones o el estado del colaborador (implementación futura)
-
                 console.log(detalleColaborador);
             }
         }
-        document.querySelector('#nroDni').addEventListener('change', consultarDni);
 
-
-        const clearDetailsPerson = () => {
-            const detalleColaborador = getPersonalDetails(consultarDni());
-                document.getElementById('codigo').value = "";
-                document.getElementById('nombre').value = "";
-                document.getElementById('apellido').value = "";
-                document.getElementById('dni').value = "";
-                document.getElementById('cargo').value = "";
-                document.getElementById('nroDni').value = "";
-                document.getElementById('nroDni').focus();
+        // FUNCIÓN QUE PERMITE BUSCAR SI EXISTE DNI PRESIONANDO ENTER
+        const searchByPressingEnter = (idSelector, metodo)=>{
+            document.querySelector(idSelector).addEventListener('change', metodo);
         }
+        // LLAMANDO FUNCIÓN
+        searchByPressingEnter('#nroDni',consultarDni);
+
+        // FUNCIÓN QUE RECIBE UN ARRAY DE LOS ID DE LOS INPUTS Y LOS LIMPIA
+        const clearInputs = (inputIds) => {
+            inputIds.forEach(id => {
+                const element = document.querySelector(`#${id}`);
+                if (element) {
+                    element.value = "";
+                }
+            });
+        };
+
+        // FUNCIÓN QUE LLAME A LA FUNCION 'clearInputs' Y COLOCA FOCO EN INPUT DEL DNI 
+        const clearDetailsPerson = () => {
+            clearInputs(['codigo', 'nombre', 'apellido', 'dni', 'cargo', 'nroDni']);
+            document.getElementById('nroDni').focus();
+        };
+
+
 
         // BOTONES PRINCIPALES
         const btnAsistencia = document.querySelector('#btnAsistencia');
@@ -339,7 +344,6 @@
         
         // BOTONES PARA FUNCIONALIDAS DE MODAL
         const modal = document.getElementById("modal");
-        const span = document.getElementsByClassName("cerrar")[0];
         
         // INICIALIZANDO MODAL EN NONE.
         modal.style.display = "none";
@@ -362,117 +366,99 @@
             document.querySelector(id).setAttribute("disabled", "disabled");
         }
 
-        // EVENTO CLICK PARA EL BOTÓN DE ASISTENCIA
-        btnAsistencia.addEventListener('click', () => {
+        // FUNCIÓN PARA BOTONES DE MODAL SI PRESIONAS ASISTENCIA Ó REFRIGERIO  
+        const handleButtonClick = (buttonType) => {
             const nroDni = document.querySelector('#nroDni').value.trim();
-            if(nroDni ==''){
-                console.log('NO SE RECONOCE EL DNI\nVerifique antes de continuar')
+            if (nroDni === '') {
+                console.log('NO SE RECONOCE EL DNI\nVerifique antes de continuar');
                 return null;
             }
+            
             modal.style.display = 'flex';
-            toggleButtons('.boton-ingreso-ref', '.boton-salida-ref', false);
-            toggleButtons('.boton-ingreso-lab', '.boton-salida-lab', true);
-            // setAttributeButton("#modalBtnSalidaLabores");
-        });
 
-        // EVENTO CLICK PARA EL BOTÓN DE REFRIGERIO
-        btnRefrigerio.addEventListener('click', () => {
-            modal.style.display = 'flex';
-            toggleButtons('.boton-ingreso-lab', '.boton-salida-lab', false);
-            toggleButtons('.boton-ingreso-ref', '.boton-salida-ref', true);
-        });
-
-        // EVENTO PARA CERRAR EL MODAL
-        span.onclick = function() {
-            modal.style.display = "none";
-        }
-
-        // EVENTO PARA CERRAR EL MODAL AL DAR CLICK FUERA DEL MODAL
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-                removeHiddenClass();
+            if (buttonType === 'asistencia') {
+                toggleButtons('.boton-ingreso-ref', '.boton-salida-ref', false);
+                toggleButtons('.boton-ingreso-lab', '.boton-salida-lab', true);
+            } 
+            if (buttonType === 'refrigerio') {
+                toggleButtons('.boton-ingreso-lab', '.boton-salida-lab', false);
+                toggleButtons('.boton-ingreso-ref', '.boton-salida-ref', true);
             }
-        }
+        };
 
-    
-        /*  ===========================================
-            FUNCIONALIDADES PARA LOS BOTONES DEL MODAL
-            ===========================================
-        */
+        // EVENTO CLICK EN FUNCIÓN 'handleButtonClick' PARA ASISTENCIA
+        btnAsistencia.addEventListener('click', () => {
+            handleButtonClick('asistencia')
+        });
+
+        // EVENTO CLICK EN FUNCIÓN 'handleButtonClick' PARA REFRIGERIO
+        btnRefrigerio.addEventListener('click', () => {
+            handleButtonClick('refrigerio')
+        });
+
+        // FUNCIÓN PARA CERRAR MODAL Y LIMPIAR DETALLES DE COLABORADOR
+        const closeModalAndClearDetails = () => {
+            modal.style.display = "none";
+            clearDetailsPerson(); 
+        };
+
+        // ASIGNANDO EVENTOS PARA CERRA MODAL
+        document.addEventListener('click', (event) => {
+            if (event.target.classList.contains('cerrar') || event.target === modal) {
+                closeModalAndClearDetails();
+            }
+        });
+
+        // FUNCIÓN PARA OBTENER FECHA CORTA DE REGISTRO DE ACTIVIDADES
         const obtenerFechaActualCorta = () => {
             const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
             return new Date().toLocaleDateString('es-ES', options);
         }
 
+        // FUNCIÓN QUE MUESTRA BOTÓN DE INGRESO-SALIDA LABORES E INGRESO-SALIDA REFRIGERIO
         const removeInactiveClass = (id) => {
             document.querySelector(id).classList.remove('inactivo'); 
         }
 
+        // FUNCIÓN QUE MANEJA EVENTO CLICK PARA LOS BOTONES DEL MODAL
+        const handleModalButtonClick = (event) => {
+            const buttonId = event.target.id;
+            console.log(buttonId);
 
-       
+            switch (buttonId) {
+                case 'modalBtnIngresoLabores':
+                    let currentDate = document.querySelector("#entrada-fecha");
+                    currentDate.value = obtenerFechaActualCorta();
+                    // AGREGAR LÓGICA DE NEGOCIO
+                    removeInactiveClass("#btnIngresoLabores");
+                    break;
+                case 'modalBtnSalidaLabores':
+                    // AGREGAR LÓGICA DE NEGOCIO
+                    removeInactiveClass("#btnSalidaLabores");
+                    break;
+                case 'modalBtnIngresoRefrigerio':
+                    // AGREGAR LÓGICA DE NEGOCIO
+                    removeInactiveClass("#btnIngresoRefrigerio");
+                    break;
+                case 'modalBtnSalidaRefrigerio':
+                    // AGREGAR LÓGICA DE NEGOCIO
+                    removeInactiveClass("#btnSalidaRefrigerio");
+                    break;
+                default:
+                    return; // SALIR
+            }
+            closeModalAndClearDetails();
+        };
 
-
-
-
-        /*ACTIVIDADES DE BOTONES LABORES :*/
-        /* INGRESO:*/
-        document.getElementById("modalBtnIngresoLabores").addEventListener('click',()=>{
-            let currentDate = document.querySelector("#entrada-fecha");
-            currentDate.value = obtenerFechaActualCorta();
-            modal.style.display = "none";
-            //ACTIVACIÓN DE BOTON: INGRESO LABORES
-            removeInactiveClass("#btnIngresoLabores");
-            clearDetailsPerson();
-        });
-        /* SALIDA :*/
-        document.getElementById("modalBtnSalidaLabores").addEventListener('click',()=>{
-            //let currentDate = document.querySelector("#entrada-fecha");
-            //currentDate.value = obtenerFechaActualCorta();
-            modal.style.display = "none";
-            //ACTIVACIÓN DE BOTON: INGRESO LABORES
-            removeInactiveClass("#btnSalidaLabores");
-            clearDetailsPerson();
-        });
-        
-        /*ACTIVIDADES DE BOTONES REFRIGERIO : */ 
-        /* INGRESO:*/
-        document.getElementById("modalBtnIngresoRefrigerio").addEventListener('click',()=>{
-            //let currentDate = document.querySelector("#entrada-fecha");
-            //currentDate.value = obtenerFechaActualCorta();
-            modal.style.display = "none";
-            //ACTIVACIÓN DE BOTON: INGRESO LABORES
-            removeInactiveClass("#btnIngresoRefrigerio");
-            clearDetailsPerson();
-        });
-        /* SALIDA :*/
-        document.getElementById("modalBtnSalidaRefrigerio").addEventListener('click',()=>{
-            //let currentDate = document.querySelector("#entrada-fecha");
-            //currentDate.value = obtenerFechaActualCorta();
-            modal.style.display = "none";
-            //ACTIVACIÓN DE BOTON: INGRESO LABORES
-            removeInactiveClass("#btnSalidaRefrigerio");
-            clearDetailsPerson();
-        });
+        // CONFIGURANDO UN SOLO CLICK PARA EL MODAL
+        modal.addEventListener('click', handleModalButtonClick);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-        /*  ==========================
-            HORA Y FECHA ACTUAL
-            ==========================
+        /*  ===========================================================
+            MOSTRAR HORA Y FECHA ACTUAL (DIA SENANA, DIA, MES Y AÑO) : 
+            ===========================================================
         */ 
-        // Función para obtener la hora actual en formato AM/PM
+        // FUNCIÓN PARA OBTENER HORA ACTUAL EN FORMATO AM/PM
         const obtenerHoraActual = () => {
             const ahora = new Date();
             let horas = ahora.getHours();
@@ -484,13 +470,13 @@
             return horas + ':' + minutos + ' ' + ampm;
         }
 
-        // Función para obtener la fecha actual en formato día de la semana, día, mes y año
+        // FUNCIÓN PARA OBTENER LA FECHA ACTUAL EN FORMATO: DÍAS DE LA SEMANA, DÍAS, MES Y AÑO
         const obtenerFechaActual = () => {
             const opcionesFecha = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
             return new Date().toLocaleDateString('es-ES', opcionesFecha);
         }
 
-        // Actualizar la hora y fecha actual cada segundo
+        // FUNCIÓN PARA LA HORA Y FECHA ACTUAL CADA DE SEGUNDO
         const actualizarHoraFecha = () => {
             const horaActualElemento = document.getElementById('horaActual');
             const fechaActualElemento = document.getElementById('fechaActual');
@@ -498,11 +484,10 @@
             horaActualElemento.textContent = obtenerHoraActual();
             fechaActualElemento.textContent = obtenerFechaActual();
         }
-
-        // Actualizar la hora y fecha actual inicialmente
+        // LLAMANDO FUNCIÓN
         actualizarHoraFecha();
 
-        // Actualizar cada segundo
+        // MÉTODO QUE ACTUALIZA LA FUNCIÓN 'actualizarHoraFecha' CADA SEGUNDO
         setInterval(actualizarHoraFecha, 1000);
         
         
