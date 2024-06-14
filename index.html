@@ -290,7 +290,7 @@
             return person ? person.pers_codigo : null;
         }
 
-        // FUNCIÓN QUE NO PERMITE INGRESO DE CARACTERES NO NUMERICOS EN EL CAMPO DNI     
+        // FUNCIÓN QUE NO PERMITE INGRESO DE CARACTERES NO NÚMERICOS EN EL CAMPO DNI     
         const restricText = (idInput) =>{
             document.querySelector(idInput).addEventListener("input", function(event) {
                 let value = event.target.value;
@@ -300,17 +300,16 @@
         // LLAMANDO FUNCIÓN
         restricText("#nroDni");
 
-        // FUNCIÓN QUE LIMITA INGRESO DE CARACTERES NO NUMÉRICOS EN EL INPUT
+        // FUNCIÓN QUE LIMITA INGRESO DE DÍGITOS EN EL INPUT
         const limitInputToDigits = (inputSelector, maxLength) => {
-            const inputElement = document.querySelector(inputSelector);
-            inputElement.addEventListener('input', function (e) {
+            document.querySelector(inputSelector).addEventListener('input', function (e) {
                 this.value = this.value.replace(/\D/g, '').slice(0, maxLength);
             });
         }
         // LLAMANDO FUNCIÓN
         limitInputToDigits('#nroDni', 8);
         
-        
+
         // FUNCIÓN PARA OBTENER INFORMACIÓN DE COLABORADOR POR DNI
         const consultarDni = () => {
             const nroDni = document.querySelector('#nroDni').value;
