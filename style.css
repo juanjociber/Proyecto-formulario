@@ -34,7 +34,7 @@ img{
     }
     .contenedor{
         display: grid;
-        grid-template-columns: 75% 25%;
+        grid-template-columns: 3fr 1fr;
         column-gap: 8px;
         row-gap: 8px;
     }
@@ -44,7 +44,8 @@ img{
 }
 @media (min-width: 992px){
     .contenedor{
-        grid-template-columns: 25% 25% 25% 25%;
+        /* grid-template-columns: 25% 25% 25% 25%; */
+        grid-template-columns: 1fr 1fr 1fr 1fr;
     }
 }
 @media (min-width: 1024px){
@@ -55,7 +56,8 @@ img{
 @media (min-width: 1200px){
     .contenedor{
         width: min(95%, 120rem);
-        grid-template-columns: 20% 20% 20% 20% 20%;
+        /* grid-template-columns: 20% 20% 20% 20% 20%; */
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     }
 }
 @media (min-width: 1441px){
@@ -344,6 +346,9 @@ img{
         grid-row: 2 / 3;
         grid-column: 4 / 5;
     }
+    .seccion-registro{
+        grid-column: 1 / 4;
+    }
 }
 @media(min-width:1024px){
     .seccion-registro{
@@ -351,6 +356,9 @@ img{
     }
 }
 @media(min-width:1200px){
+    .seccion-registro{
+        grid-column: 1 / 5;
+    }
     .boton-registro{
         padding: 15px 10px;
         width: 140px;
@@ -358,6 +366,10 @@ img{
     .seccion-hora-fecha{
         grid-row: 3 / 4;
         grid-column: 3 / 4;
+    }
+    .seccion-hora-fecha{
+        grid-column: 5 / 6;
+        grid-row: 2 / 3;
     }
 }
 
@@ -506,6 +518,11 @@ img{
 
     }
 }
+@media(min-width:1200px){
+    .seccion-gps{
+        grid-column: 1 / 4;
+    }
+}
 
 /*  ================================================
     Estilos de seccion del mapa
@@ -522,22 +539,23 @@ img{
     .seccion-mapa{
         display:inherit;
         grid-column: 3 / 5;
+        position: relative; 
+        width: auto; 
+        height: auto; 
+        /* overflow: hidden; */
+    }
+    #mapa {
+        width: 100%;
+        height: 100%;
+    }
+    iframe{
+        border: 1px solid rgb(0, 30, 255);
     }
 }
 @media(min-width:1200px){
     .seccion-mapa{
         grid-column: 4 / 6;
-        grid-row: 2 / 4;
-    
-        position: relative; /* Asegura que los elementos internos se posicionen relativamente a este contenedor */
-        width: 100%; /* Puedes ajustar el ancho según tu diseño */
-        height: 400px; /* Puedes ajustar la altura según tu diseño */
-        overflow: hidden; /* Evita que el contenido interno se salga del contenedor */
+        grid-row: 3 / 4;
     }
-    #mapa {
-        width: 100%;
-        height: 100%; /* El mapa ocupará toda la altura del contenedor .seccion-mapa */
-    }
-    
 }
 
