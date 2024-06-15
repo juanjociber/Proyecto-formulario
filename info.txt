@@ -841,8 +841,8 @@ const ContenedorPrincipal = () => {
   };
 
   return (
-    <div className="container">
-      <h1>Contenedor Principal</h1>
+    <div className="contenedor">
+      <h1>Sistema de Marcación</h1>
       <SeccionDni />
       <SeccionInformacion />
       <SeccionRegistro />
