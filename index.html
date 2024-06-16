@@ -265,6 +265,26 @@
             }
         ]
 
+        // FUNCIÓN QUE NO PERMITE INGRESO DE CARACTERES NO NÚMERICOS EN EL CAMPO DNI     
+        const restricText = (idInput) =>{
+            document.querySelector(idInput).addEventListener("input", function(event) {
+                let value = event.target.value;
+                event.target.value = value.replace(/\D/g, "");
+            });
+        }
+        // LLAMANDO FUNCIÓN
+        restricText("#nroDni");
+
+        // FUNCIÓN QUE LIMITA INGRESO DE DÍGITOS EN EL INPUT
+        const limitInputToDigits = (inputSelector, maxLength) => {
+            document.querySelector(inputSelector).addEventListener('input', function (e) {
+                this.value = this.value.replace(/\D/g, '').slice(0, maxLength);
+            });
+        }
+        // LLAMANDO FUNCIÓN
+        limitInputToDigits('#nroDni', 8);
+
+        
         //FUNCIÓN PARA OBTENER INFO DE COLABORADOR POR SU 'ID' 
         const getPersonalDetails = (idPersonal) => {
             const person = personal.find(p => p.pers_codigo === idPersonal);
@@ -289,26 +309,6 @@
             const person = personal.find(p => p.pers_dni === nroDni);
             return person ? person.pers_codigo : null;
         }
-
-        // FUNCIÓN QUE NO PERMITE INGRESO DE CARACTERES NO NÚMERICOS EN EL CAMPO DNI     
-        const restricText = (idInput) =>{
-            document.querySelector(idInput).addEventListener("input", function(event) {
-                let value = event.target.value;
-                event.target.value = value.replace(/\D/g, "");
-            });
-        }
-        // LLAMANDO FUNCIÓN
-        restricText("#nroDni");
-
-        // FUNCIÓN QUE LIMITA INGRESO DE DÍGITOS EN EL INPUT
-        const limitInputToDigits = (inputSelector, maxLength) => {
-            document.querySelector(inputSelector).addEventListener('input', function (e) {
-                this.value = this.value.replace(/\D/g, '').slice(0, maxLength);
-            });
-        }
-        // LLAMANDO FUNCIÓN
-        limitInputToDigits('#nroDni', 8);
-        
 
         // FUNCIÓN PARA OBTENER INFORMACIÓN DE COLABORADOR POR DNI
         const consultarDni = () => {
