@@ -88,8 +88,6 @@
                     <span class="dato-gps" id="direccion"></span>
                 </div>
             </div>
-            
-            
         </section>
         <section class="seccion-mapa">
             <h2 class="titulo-seccion">Mapa</h2>
@@ -315,17 +313,19 @@
             const nroDni = document.querySelector('#nroDni').value;
             // VALIDACIONES
             if (nroDni === '') {
+                alert('Por favor ingrese el número de DNI.');
                 console.log('Por favor ingrese el número de DNI.');
                 return;
             }
             if (nroDni.length !== 8 || !/^\d{8}$/.test(nroDni)) {
-                console.log('El DNI debe contener exactamente 8 dígitos.');
+                alert('El DNI debe contener exactamente 8 dígitos.');
                 document.querySelector('#nroDni').value = ''; 
                 return false;
             }
             // OBTENER EL 'ID' DE COLABORADOR POR DNI
             const idPersonal = getIdByDni(nroDni);
             if (!idPersonal) {
+                alert('El DNI ingresado no existe.');
                 console.log('El DNI ingresado no existe.');
                 document.querySelector('#nroDni').value = ''; 
                 return;
@@ -402,6 +402,7 @@
         const handleButtonClick = (buttonType) => {
             const nroDni = document.querySelector('#nroDni').value.trim();
             if (nroDni === '') {
+                alert('NO SE RECONOCE EL DNI\nVerifique antes de continuar')
                 console.log('NO SE RECONOCE EL DNI\nVerifique antes de continuar');
                 return null;
             }
