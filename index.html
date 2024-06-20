@@ -63,7 +63,7 @@
                 <label class="etiqueta-fecha">Fecha:</label> 
                 <input class="entrada-fecha" id="entrada-fecha" disabled value=""/>
                 <label class="etiqueta-horario">Horario:</label>
-                <input class="entrada-horario" disabled value="18:00:00"/>
+                <input class="entrada-horario" disabled value="08:00 A 18:00"/>
             </div>
             <div class="grupo-botones-registro">
                 <button class="boton-registro boton-ingreso-labores inactivo" id="btnIngresoLabores">Ingreso labores</button>
@@ -343,8 +343,6 @@
 
                 // Habilitar botones según las marcaciones o el estado del colaborador (implementación futura)
                 console.log(detalleColaborador);
-                obtenerGeolocalizacion();
-
             }
         }
 
@@ -589,6 +587,8 @@
                 alert("Geolocalización no soportada por este navegador.");
             }
         }
+        obtenerGeolocalizacion();
+
     </script>
 </body>
 </html>
